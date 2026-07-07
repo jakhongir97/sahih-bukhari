@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sahih al-Bukhari — joxon.uz</title>
+<meta name="description" content="Sahih al-Bukhari — the most authentic book after the Qur'an, in a calm, modern reader. All 97 books, 7,583 hadith, fully offline. No ads, no tracking. From joxon.uz.">
+<meta name="theme-color" content="#F6F3EA">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<!-- Open Graph (uses the app icon; add a dedicated 1200x630 og image later if desired) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sahih al-Bukhari — joxon.uz">
+<meta property="og:description" content="The most authentic book after the Qur'an, in a calm, modern reader. All 97 books, fully offline. No ads, no tracking.">
+<meta property="og:image" content="icon.png">
+<meta property="og:url" content="https://joxon.uz">
+<style>
+  :root{
+    --paper:#F6F3EA; --ink:#1C232B; --soft:#4C555F; --faint:#727A82;
+    --cobalt:#1C4E7E; --cobalt-soft:#E7ECF2;
+    --gold:#9A7118; --gold-text:#856011; --gold-soft:#F0E9D6;
+    --hair:#DCD9CE; --card:#FCFBF7; --night:#151B22; --night-ink:#E9E4D6;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --arabic:"Amiri","Geeza Pro","Noto Naskh Arabic","Scheherazade New",serif;
+    --page:min(1080px,92vw);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+       line-height:1.62;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  img{max-width:100%;display:block}
+  a{color:var(--cobalt);text-decoration:none}
+  a:hover{text-decoration:underline}
+  h1,h2,h3{font-family:var(--serif);font-weight:600;text-wrap:balance;margin:0}
+  p{margin:0}
+  .eyebrow{font-size:12px;letter-spacing:2px;text-transform:uppercase;
+           color:var(--gold-text);font-weight:600}
+
+  /* ---- 8-point khātam ornament ---- */
+  .khatam{display:inline-block;width:1em;height:1em;color:var(--gold);flex:none}
+  .khatam svg{width:100%;height:100%;display:block}
+
+  /* ---- top bar ---- */
+  .bar{position:sticky;top:0;z-index:20;
+       background:rgba(246,243,234,.82);backdrop-filter:saturate(150%) blur(12px);
+       border-bottom:1px solid var(--hair)}
+  .bar .inner{width:var(--page);margin:0 auto;display:flex;align-items:center;gap:18px;
+              height:60px}
+  .brand{display:flex;align-items:center;gap:9px;font-family:var(--serif);
+         font-size:18px;font-weight:600;color:var(--ink)}
+  .brand:hover{text-decoration:none}
+  .brand .khatam{font-size:16px}
+  .bar nav{margin-left:auto;display:flex;align-items:center;gap:26px}
+  .bar nav a{color:var(--soft);font-size:14.5px}
+  .bar nav a:hover{color:var(--ink);text-decoration:none}
+  .navlinks{display:flex;gap:26px}
+  .cta{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--paper);
+       font-size:14px;font-weight:600;padding:9px 16px;border-radius:11px;
+       transition:transform .15s ease,background .15s ease;white-space:nowrap}
+  .cta:hover{background:#000;text-decoration:none;transform:translateY(-1px)}
+  .cta small{font-weight:400;opacity:.7;font-size:11px}
+
+  /* ---- shared section frame ---- */
+  section{width:var(--page);margin:0 auto}
+  .rule{width:var(--page);margin:0 auto;height:1px;background:var(--hair)}
+
+  /* ---- hero ---- */
+  .hero{text-align:center;padding:72px 0 8px}
+  .appicon{width:88px;height:88px;border-radius:20px;margin:0 auto 26px;
+           box-shadow:0 10px 30px rgba(28,35,43,.18);border:1px solid rgba(0,0,0,.05)}
+  .bism{font-family:var(--arabic);font-size:clamp(30px,6.5vw,52px);color:var(--ink);
+        direction:rtl;line-height:1.3;margin-bottom:6px}
+  .hero h1{font-size:clamp(15px,2.4vw,19px);font-weight:600;letter-spacing:.5px;
+           color:var(--gold-text);text-transform:uppercase;letter-spacing:3px}
+  .hero .lede{font-family:var(--serif);font-size:clamp(22px,3.4vw,30px);color:var(--ink);
+              max-width:20ch;margin:20px auto 0;line-height:1.32}
+  .hero .sub{color:var(--soft);font-size:17px;max-width:52ch;margin:16px auto 0}
+  .heroActions{display:flex;gap:12px;justify-content:center;align-items:center;
+               flex-wrap:wrap;margin-top:30px}
+  .ghost{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--hair);
+         background:var(--card);color:var(--ink);font-size:14px;font-weight:600;
+         padding:11px 18px;border-radius:12px}
+  .ghost:hover{border-color:var(--cobalt);color:var(--cobalt);text-decoration:none}
+  .cta.lg{padding:12px 22px;font-size:15px;border-radius:13px}
+
+  .heroShot{margin:26px auto -6px;width:270px;max-width:78vw;aspect-ratio:500/899;
+            filter:drop-shadow(0 24px 44px rgba(28,35,43,.16))}
+  /* The frames are composed on the exact paper tone (#F6F3EA); on this ground
+     the paper dissolves and only the phone floats. */
+
+  /* ---- stat strip ---- */
+  .stats{display:flex;flex-wrap:wrap;justify-content:center;gap:0;
+         border:1px solid var(--hair);border-radius:16px;background:var(--card);
+         margin:52px auto;overflow:hidden}
+  .stat{flex:1 1 150px;text-align:center;padding:22px 18px;border-right:1px solid var(--hair)}
+  .stat:last-child{border-right:0}
+  .stat b{display:block;font-family:var(--serif);font-size:26px;color:var(--ink);
+          font-variant-numeric:tabular-nums;line-height:1}
+  .stat span{display:block;margin-top:6px;font-size:12.5px;color:var(--faint);
+             letter-spacing:.4px}
+
+  /* ---- feature rows ---- */
+  .feature{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;
+           padding:56px 0}
+  .feature.flip .copy{order:2}
+  .feature.flip .art{order:1}
+  .feature .art{display:flex;justify-content:center}
+  .feature .art img{width:280px;max-width:74vw;aspect-ratio:500/899;
+                    filter:drop-shadow(0 22px 40px rgba(28,35,43,.15))}
+  .feature h2{font-size:clamp(24px,3vw,32px);color:var(--ink);line-height:1.18}
+  .feature .copy p{color:var(--soft);font-size:17px;margin-top:14px;max-width:42ch}
+  .feature .copy .eyebrow{margin-bottom:12px;display:block}
+  .miniList{list-style:none;padding:0;margin:20px 0 0}
+  .miniList li{position:relative;padding-left:24px;margin:10px 0;color:var(--soft);font-size:15.5px}
+  .miniList li .khatam{position:absolute;left:0;top:3px;font-size:13px}
+
+  /* ---- collection: the book's own structure as the visual ---- */
+  .collection{padding:60px 0 8px;text-align:center}
+  .collection .eyebrow{display:block;margin-bottom:12px}
+  .collection h2{font-size:clamp(24px,3vw,32px)}
+  .collection .lead{color:var(--soft);font-size:17px;max-width:60ch;margin:14px auto 0}
+  .sections{display:grid;gap:12px;margin:34px auto 0;max-width:920px;
+            grid-template-columns:repeat(auto-fill,minmax(196px,1fr))}
+  .sec{display:flex;align-items:baseline;justify-content:space-between;gap:10px;
+       background:var(--card);border:1px solid var(--hair);border-radius:12px;
+       padding:14px 16px;text-align:left}
+  .sec b{font-family:var(--serif);font-size:16px;font-weight:600;color:var(--ink);line-height:1.15}
+  .sec span{font-size:12px;color:var(--faint);white-space:nowrap;
+            font-variant-numeric:tabular-nums;letter-spacing:.3px}
+  .tags{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:30px auto 0;max-width:640px}
+  .tag{display:inline-flex;align-items:center;gap:8px;font-size:14.5px;color:var(--soft);
+       border:1px solid var(--hair);border-radius:999px;padding:8px 15px;background:var(--paper)}
+  .tag .khatam{font-size:12px}
+
+  /* ---- night band (the dark screenshot dissolves into it) ---- */
+  .night{background:var(--night);color:var(--night-ink);margin-top:8px}
+  .night .wrap{width:var(--page);margin:0 auto;display:grid;
+               grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding:66px 0}
+  .night h2{color:#F4EFE2;font-size:clamp(24px,3vw,32px)}
+  .night p{color:#B9B2A2;font-size:17px;margin-top:14px;max-width:40ch}
+  .night .eyebrow{color:#C9A54B;margin-bottom:12px;display:block}
+  .night .art{display:flex;justify-content:center}
+  .night .art img{width:270px;max-width:74vw;aspect-ratio:500/899;
+                  filter:drop-shadow(0 26px 50px rgba(0,0,0,.5))}
+
+  /* ---- languages ---- */
+  .langs{text-align:center;padding:64px 0 8px}
+  .langs h2{font-size:clamp(24px,3vw,32px);margin-top:10px}
+  .langs p{color:var(--soft);font-size:17px;max-width:54ch;margin:14px auto 0}
+  .pills{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:28px auto 0;
+         max-width:640px}
+  .pill{border:1px solid var(--hair);background:var(--card);border-radius:999px;
+        padding:9px 17px;font-size:15px;color:var(--ink);font-weight:500}
+  .pill.soon{color:var(--gold-text);border-color:var(--gold-soft);background:var(--gold-soft)}
+  .pill.soon small{opacity:.75;font-weight:400}
+
+  /* ---- support + privacy ---- */
+  .doc{padding:64px 0 8px}
+  .doc h2{font-size:clamp(24px,3vw,30px);display:flex;align-items:center;gap:12px}
+  .doc h2 .khatam{font-size:19px}
+  .doc p{color:var(--soft);font-size:16.5px;margin-top:14px;max-width:64ch}
+  .contact{margin:22px 0 0;background:var(--card);border:1px solid var(--hair);
+           border-radius:16px;padding:22px 26px;max-width:64ch}
+  .contact .eyebrow{display:block;margin-bottom:7px}
+  .contact a{font-family:var(--serif);font-size:21px}
+  .plist{list-style:none;padding:0;margin:20px 0 0;max-width:66ch}
+  .plist li{position:relative;padding-left:26px;margin:12px 0;color:var(--soft);font-size:16px}
+  .plist li .khatam{position:absolute;left:0;top:4px;font-size:13px}
+  .plist li b{color:var(--ink);font-weight:600}
+  .note{color:var(--faint);font-size:14px;margin-top:18px;max-width:64ch}
+
+  /* ---- footer ---- */
+  footer{width:var(--page);margin:64px auto 0;border-top:1px solid var(--hair);
+         padding:30px 0 60px;color:var(--faint);font-size:13.5px;text-align:center}
+  footer .brand{justify-content:center;margin-bottom:12px;font-size:17px}
+  footer p{margin:6px auto;max-width:60ch}
+  footer .fine{font-size:12.5px;opacity:.85}
+
+  @media (max-width:760px){
+    .navlinks{display:none}
+    .feature,.night .wrap{grid-template-columns:1fr;gap:30px;text-align:center}
+    .feature.flip .copy,.feature.flip .art{order:0}
+    .feature .copy p,.night p{margin-left:auto;margin-right:auto}
+    .miniList{display:inline-block;text-align:left}
+    .stat{flex-basis:50%;border-right:0;border-bottom:1px solid var(--hair)}
+    .stat:nth-last-child(-n+1){border-bottom:0}
+  }
+  /* Motion is a one-time hero load-in only — CSS-driven, always completes, and
+     never gates content visibility (everything is visible without JS). */
+  @media (prefers-reduced-motion:no-preference){
+    .hero .appicon,.hero .bism,.hero h1,.hero .lede,.hero .sub,
+    .hero .heroActions,.hero .heroShot{animation:riseIn .8s cubic-bezier(.22,.61,.36,1) both}
+    .hero .bism{animation-delay:.05s}
+    .hero h1{animation-delay:.11s}
+    .hero .lede{animation-delay:.18s}
+    .hero .sub{animation-delay:.26s}
+    .hero .heroActions{animation-delay:.34s}
+    .hero .heroShot{animation-delay:.42s}
+  }
+  @keyframes riseIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<!-- ═══ Top bar ═══ -->
+<div class="bar">
+  <div class="inner">
+    <a class="brand" href="#top">
+      <span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span>
+      joxon.uz
+    </a>
+    <nav>
+      <div class="navlinks">
+        <a href="#app">The app</a>
+        <a href="#languages">Languages</a>
+        <a href="#support">Support</a>
+        <a href="#privacy">Privacy</a>
+      </div>
+      <!-- When the app is live, set href to the App Store URL and change the label. -->
+      <a class="cta" href="#app">Sahih al-Bukhari <small>· soon</small></a>
+    </nav>
+  </div>
+</div>
+
+<a id="top"></a>
+
+<!-- ═══ Hero ═══ -->
+<section class="hero">
+  <img class="appicon" src="icon.png" alt="Sahih al-Bukhari app icon" width="88" height="88">
+  <div class="bism">صحيح البخاري</div>
+  <h1>Sahih al-Bukhari</h1>
+  <p class="lede">The most authentic book after the Qur’an — as a book you’ll want to open.</p>
+  <p class="sub">A calm, modern reader for the whole collection: all 97 books, page by page,
+     fully offline, with a hadith for every day. No ads. No tracking. No noise.</p>
+  <div class="heroActions">
+    <a class="cta lg" href="#app">Coming to the App&nbsp;Store</a>
+    <a class="ghost" href="#support">Support &amp; privacy</a>
+  </div>
+  <img class="heroShot" src="shots/1_today.png" alt="The Today screen: the daily hadith, reading streak, and progress through the book." loading="lazy">
+</section>
+
+<a id="app"></a>
+
+<!-- ═══ Stat strip ═══ -->
+<section>
+  <div class="stats reveal">
+    <div class="stat"><b>97</b><span>books, in full</span></div>
+    <div class="stat"><b>7,583</b><span>hadith</span></div>
+    <div class="stat"><b>100%</b><span>offline</span></div>
+    <div class="stat"><b>0</b><span>ads &amp; trackers</span></div>
+  </div>
+</section>
+
+<!-- ═══ Feature: the reader ═══ -->
+<section class="feature reveal">
+  <div class="copy">
+    <span class="eyebrow">A page you turn</span>
+    <h2>The book, made modern.</h2>
+    <p>Every narration set like a page worth keeping — the Arabic in Amiri, a clear
+       translation beneath, the narrator named, the grade shown. Turn page by page
+       or read in one continuous scroll.</p>
+    <ul class="miniList">
+      <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span>Adjustable type size, day &amp; night themes</li>
+      <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span>A ribbon that remembers where you stopped</li>
+      <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span>Listen aloud, hands-free</li>
+    </ul>
+  </div>
+  <div class="art"><img src="shots/2_reader.png" alt="The reader screen showing a hadith with Arabic, translation and narrator." loading="lazy"></div>
+</section>
+
+<!-- ═══ The whole book, by its own structure ═══ -->
+<section class="collection reveal">
+  <span class="eyebrow">All of it, in your pocket</span>
+  <h2>The complete collection, grouped to browse.</h2>
+  <p class="lead">All 97 books, arranged into thirteen plain-language sections — so you always
+     know where you are in the book. Find your place at a glance, then read page by page.</p>
+  <div class="sections">
+    <div class="sec"><b>The Beginning</b><span>Books 1–3</span></div>
+    <div class="sec"><b>Purification</b><span>4–7</span></div>
+    <div class="sec"><b>Prayer</b><span>8–23</span></div>
+    <div class="sec"><b>Zakat, Fasting &amp; Hajj</b><span>24–33</span></div>
+    <div class="sec"><b>Dealings &amp; Property</b><span>34–55</span></div>
+    <div class="sec"><b>Struggle &amp; Treaties</b><span>56–58</span></div>
+    <div class="sec"><b>Prophets &amp; History</b><span>59–64</span></div>
+    <div class="sec"><b>The Qurʼan</b><span>65–66</span></div>
+    <div class="sec"><b>Family &amp; Food</b><span>67–71</span></div>
+    <div class="sec"><b>Conduct &amp; Daily Life</b><span>72–80</span></div>
+    <div class="sec"><b>Softening the Heart</b><span>81–82</span></div>
+    <div class="sec"><b>Oaths, Law &amp; Justice</b><span>83–90</span></div>
+    <div class="sec"><b>Dreams, Trials &amp; Belief</b><span>91–97</span></div>
+  </div>
+  <div class="tags">
+    <span class="tag"><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span>Instant offline search, with “did you mean?”</span>
+    <span class="tag"><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span>Per-book progress, quietly tracked</span>
+    <span class="tag"><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span>A home-screen widget for the day’s hadith</span>
+  </div>
+</section>
+
+<!-- ═══ Night band ═══ -->
+<div class="night">
+  <div class="wrap reveal">
+    <div class="copy">
+      <span class="eyebrow">Beautiful, day or night</span>
+      <h2>A reading light that’s easy on the eyes.</h2>
+      <p>A warm night theme for late reading and quiet mornings — the same page,
+         dimmed to candlelight. Nothing glares; nothing pulls you away.</p>
+    </div>
+    <div class="art"><img src="shots/5_night.png" alt="The reader in its night theme." loading="lazy"></div>
+  </div>
+</div>
+
+<!-- ═══ Languages ═══ -->
+<a id="languages"></a>
+<section class="langs reveal">
+  <span class="eyebrow">Read it in your language</span>
+  <h2>The Arabic original, with translations.</h2>
+  <p>The verified Arabic text at the centre, with translations alongside — and an
+     interface that speaks your language. Uzbek comes first: a fully localized
+     experience today, with the complete Uzbek translation in careful preparation.</p>
+  <div class="pills">
+    <span class="pill">العربية · Arabic</span>
+    <span class="pill">English</span>
+    <span class="pill">Русский</span>
+    <span class="pill">Türkçe</span>
+    <span class="pill">Bahasa Indonesia</span>
+    <span class="pill">اردو · Urdu</span>
+    <span class="pill soon">Oʻzbek <small>· translation in preparation</small></span>
+  </div>
+  <img class="heroShot" src="shots/4_uzbek.png" alt="The app with its Uzbek interface." loading="lazy" style="margin-top:38px">
+</section>
+
+<div class="rule" style="margin-top:56px"></div>
+
+<!-- ═══ Support ═══ -->
+<a id="support"></a>
+<section class="doc">
+  <h2><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span>Support</h2>
+  <p>Questions, feedback, or something that looks wrong in the app — a hadith, the
+     Arabic, a translation, or the reading experience? Please get in touch. Every
+     message is read, and accuracy reports are taken seriously.</p>
+  <div class="contact">
+    <span class="eyebrow">Contact</span>
+    <a href="mailto:jakhongir.nematov97@gmail.com">jakhongir.nematov97@gmail.com</a>
+  </div>
+</section>
+
+<!-- ═══ Privacy ═══ -->
+<a id="privacy"></a>
+<section class="doc">
+  <h2><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span>Privacy</h2>
+  <p>Sahih al-Bukhari is built to collect nothing and track nothing. It works fully
+     offline.</p>
+  <ul class="plist">
+    <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span><b>No data is collected.</b> There are no accounts, no sign-up, and no analytics.</li>
+    <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span><b>No tracking.</b> No advertising or tracking technologies of any kind.</li>
+    <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span><b>No network calls.</b> All content is bundled in the app; it does not connect to any server during use.</li>
+    <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span><b>Your data stays on your device.</b> Bookmarks, reading position, streak, and settings never leave it.</li>
+    <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span><b>Audio is on-device.</b> The optional “Listen” feature uses your device’s built-in text-to-speech — a synthesized voice, processed on-device, and labelled as such in the app.</li>
+  </ul>
+  <p class="note">Because no personal data is collected, there is nothing to request, export,
+     or delete from us. Removing the app removes all of its data from your device. If this
+     policy changes, the updated version will be posted on this page.</p>
+</section>
+
+<!-- ═══ Footer ═══ -->
+<footer>
+  <div class="brand">
+    <span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span>
+    joxon.uz
+  </div>
+  <p>Sahih al-Bukhari — read and listened, fully offline.</p>
+  <p class="fine">© 2026 joxon.uz · Support &amp; Privacy · Last updated 7 July 2026</p>
+  <p class="fine">Arabic text from verified sources; the Uzbek daily hadith is shown under the
+     re-publication terms of HadeethEnc.com.</p>
+</footer>
+
+</body>
+</html>
