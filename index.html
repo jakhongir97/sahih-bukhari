@@ -14,200 +14,260 @@
 <meta property="og:description" content="The most authentic book after the Qur'an, in a calm, modern reader. All 97 books, fully offline. No ads, no tracking.">
 <meta property="og:image" content="icon.png">
 <meta property="og:url" content="https://joxon.uz">
+<script>document.documentElement.className+=' js'</script>
 <style>
   :root{
+    /* ── base palette (unchanged) ── */
     --paper:#F6F3EA; --ink:#1C232B; --soft:#4C555F; --faint:#727A82;
     --cobalt:#1C4E7E; --cobalt-soft:#E7ECF2;
     --gold:#9A7118; --gold-text:#856011; --gold-soft:#F0E9D6;
     --hair:#DCD9CE; --card:#FCFBF7; --night:#151B22; --night-ink:#E9E4D6;
+    /* ── night endpoints for the day→night scrub ── */
+    --night-soft:#B9B2A2; --night-hair:#2C343D; --night-card:#1B222B;
+    /* ── candlelight (used only on the lamp glow + gold marks at night) ── */
+    --lamp:#C9A54B; --gild-glow:#E4C46A;
     --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
     --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     --arabic:"Amiri","Geeza Pro","Noto Naskh Arabic","Scheherazade New",serif;
     --page:min(1080px,92vw);
+
+    /* ── the one live variable the whole page reads (0 = day, 1 = night) ── */
+    --dusk:0;
+    /* ── semantic surfaces, interpolated from --dusk in oklab ── */
+    --bg:color-mix(in oklab, var(--paper), var(--night) calc(var(--dusk)*100%));
+    --fg:color-mix(in oklab, var(--ink), var(--night-ink) calc(var(--dusk)*100%));
+    --fg-soft:color-mix(in oklab, var(--soft), var(--night-soft) calc(var(--dusk)*100%));
+    --fg-faint:color-mix(in oklab, var(--faint), var(--night-soft) calc(var(--dusk)*100%));
+    --surface:color-mix(in oklab, var(--card), var(--night-card) calc(var(--dusk)*100%));
+    --line:color-mix(in oklab, var(--hair), var(--night-hair) calc(var(--dusk)*100%));
+    /* gold warms toward candlelight as night falls */
+    --gold-live:color-mix(in oklab, var(--gold), var(--gild-glow) calc(var(--dusk)*72%));
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
-       line-height:1.62;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  body{margin:0;
+       background:var(--paper); background:var(--bg);
+       color:var(--ink); color:var(--fg);
+       font-family:var(--sans);line-height:1.62;-webkit-font-smoothing:antialiased;
+       text-rendering:optimizeLegibility;
+       transition:background-color .12s linear,color .12s linear}
   img{max-width:100%;display:block}
   a{color:var(--cobalt);text-decoration:none}
   a:hover{text-decoration:underline}
-  h1,h2,h3{font-family:var(--serif);font-weight:600;text-wrap:balance;margin:0}
+  h1,h2,h3{font-family:var(--serif);font-weight:600;text-wrap:balance;margin:0;color:var(--fg)}
   p{margin:0}
   .eyebrow{font-size:12px;letter-spacing:2px;text-transform:uppercase;
            color:var(--gold-text);font-weight:600}
 
-  /* ---- 8-point khātam ornament ---- */
+  /* the 8-point star, taken from the app mark, used only as a small gold bullet */
   .khatam{display:inline-block;width:1em;height:1em;color:var(--gold);flex:none}
-  .khatam svg{width:100%;height:100%;display:block}
+  .khatam use,.khatam svg{width:100%;height:100%;display:block}
 
-  /* ---- top bar ---- */
+  /* folio numerals — the scholarly catalogue tic */
+  .folio{display:block;font-family:var(--arabic);font-size:13px;letter-spacing:.14em;
+         color:var(--gold-live);opacity:.9;margin-bottom:10px}
+
+  /* ═══ top bar ═══ */
   .bar{position:sticky;top:0;z-index:20;
-       background:rgba(246,243,234,.82);backdrop-filter:saturate(150%) blur(12px);
-       border-bottom:1px solid var(--hair)}
-  .bar .inner{width:var(--page);margin:0 auto;display:flex;align-items:center;gap:18px;
-              height:60px}
-  .brand{display:flex;align-items:center;gap:9px;font-family:var(--serif);
-         font-size:18px;font-weight:600;color:var(--ink)}
+       background:rgba(246,243,234,.82);
+       background:color-mix(in oklab, rgba(246,243,234,.82), rgba(21,27,34,.86) calc(var(--dusk)*100%));
+       backdrop-filter:saturate(150%) blur(12px);
+       border-bottom:1px solid var(--line)}
+  .bar .inner{width:var(--page);margin:0 auto;display:flex;align-items:center;gap:18px;height:60px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);
+         font-size:18px;font-weight:600;color:var(--fg)}
   .brand:hover{text-decoration:none}
-  .brand .khatam{font-size:16px}
+  .brand .mark{width:24px;height:24px;border-radius:6px;display:block}
   .bar nav{margin-left:auto;display:flex;align-items:center;gap:26px}
-  .bar nav a{color:var(--soft);font-size:14.5px}
-  .bar nav a:hover{color:var(--ink);text-decoration:none}
+  .bar nav a{color:var(--fg-soft);font-size:14.5px}
+  .bar nav a:hover{color:var(--fg);text-decoration:none}
   .navlinks{display:flex;gap:26px}
-  .cta{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--paper);
+  .cta{display:inline-flex;align-items:center;gap:8px;
+       background:var(--ink);background:var(--fg);color:var(--paper);color:var(--bg);
        font-size:14px;font-weight:600;padding:9px 16px;border-radius:11px;
-       transition:transform .15s ease,background .15s ease;white-space:nowrap}
-  .cta:hover{background:#000;text-decoration:none;transform:translateY(-1px)}
+       transition:transform .15s ease,filter .15s ease;white-space:nowrap}
+  .cta:hover{filter:brightness(.82);text-decoration:none;transform:translateY(-1px)}
   .cta small{font-weight:400;opacity:.7;font-size:11px}
 
-  /* ---- shared section frame ---- */
-  section{width:var(--page);margin:0 auto}
-  .rule{width:var(--page);margin:0 auto;height:1px;background:var(--hair)}
+  /* ═══ shared frame ═══ */
+  section{width:var(--page);margin:0 auto;position:relative}
+  .rule{width:var(--page);margin:0 auto;height:1px;background:var(--line)}
 
-  /* ---- hero ---- */
-  .hero{text-align:center;padding:72px 0 8px}
-  .appicon{width:88px;height:88px;border-radius:20px;margin:0 auto 26px;
-           box-shadow:0 10px 30px rgba(28,35,43,.18);border:1px solid rgba(0,0,0,.05)}
-  .bism{font-family:var(--arabic);font-size:clamp(30px,6.5vw,52px);color:var(--ink);
-        direction:rtl;line-height:1.3;margin-bottom:6px}
-  .hero h1{font-size:clamp(15px,2.4vw,19px);font-weight:600;letter-spacing:.5px;
+  /* ═══ hero ═══ */
+  .hero{text-align:center;padding:92px 0 8px}
+  .hero .lamp{position:absolute;left:50%;top:120px;width:360px;height:360px;
+              transform:translate(-50%,-50%) scale(calc(.75 + var(--dusk)*.45));
+              background:radial-gradient(circle, var(--lamp) 0%, transparent 62%);
+              opacity:calc(var(--dusk)*.42);mix-blend-mode:multiply;
+              pointer-events:none;z-index:0}
+  .appicon{position:relative;z-index:1;width:96px;height:96px;border-radius:22px;
+           margin:0 auto 24px;box-shadow:0 12px 34px rgba(28,35,43,.20);
+           border:1px solid rgba(0,0,0,.05)}
+  .hero .folio,.hero .bism,.hero h1,.hero .lede,.hero .sub,.hero .heroActions,.hero .heroShot{
+    position:relative;z-index:1}
+  .bism{font-family:var(--arabic);font-size:clamp(34px,7vw,64px);color:var(--fg);
+        direction:rtl;line-height:1.18;margin:2px 0 10px}
+  .hero h1{font-family:var(--sans);font-size:clamp(12px,2vw,14px);font-weight:600;
            color:var(--gold-text);text-transform:uppercase;letter-spacing:3px}
-  .hero .lede{font-family:var(--serif);font-size:clamp(22px,3.4vw,30px);color:var(--ink);
+  .hero .lede{font-family:var(--serif);font-size:clamp(22px,3.4vw,30px);color:var(--fg);
               max-width:20ch;margin:20px auto 0;line-height:1.32}
-  .hero .sub{color:var(--soft);font-size:17px;max-width:52ch;margin:16px auto 0}
+  .hero .sub{color:var(--fg-soft);font-size:17px;max-width:52ch;margin:16px auto 0}
   .heroActions{display:flex;gap:12px;justify-content:center;align-items:center;
                flex-wrap:wrap;margin-top:30px}
-  .ghost{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--hair);
-         background:var(--card);color:var(--ink);font-size:14px;font-weight:600;
+  .ghost{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);
+         background:var(--surface);color:var(--fg);font-size:14px;font-weight:600;
          padding:11px 18px;border-radius:12px}
   .ghost:hover{border-color:var(--cobalt);color:var(--cobalt);text-decoration:none}
   .cta.lg{padding:12px 22px;font-size:15px;border-radius:13px}
-
   .heroShot{margin:26px auto -6px;width:270px;max-width:78vw;aspect-ratio:500/899;
             filter:drop-shadow(0 24px 44px rgba(28,35,43,.16))}
-  /* The frames are composed on the exact paper tone (#F6F3EA); on this ground
-     the paper dissolves and only the phone floats. */
 
-  /* ---- stat strip ---- */
+  /* ═══ stat strip ═══ */
   .stats{display:flex;flex-wrap:wrap;justify-content:center;gap:0;
-         border:1px solid var(--hair);border-radius:16px;background:var(--card);
+         border:1px solid var(--line);border-radius:16px;background:var(--surface);
          margin:52px auto;overflow:hidden}
-  .stat{flex:1 1 150px;text-align:center;padding:22px 18px;border-right:1px solid var(--hair)}
+  .stat{flex:1 1 150px;text-align:center;padding:24px 18px;border-right:1px solid var(--line)}
   .stat:last-child{border-right:0}
-  .stat b{display:block;font-family:var(--serif);font-size:26px;color:var(--ink);
+  .stat .tick{width:20px;height:2px;background:var(--gold-live);margin:0 auto 12px;
+              border-radius:2px;opacity:.8}
+  .stat b{display:block;font-family:var(--serif);font-size:26px;color:var(--fg);
           font-variant-numeric:tabular-nums;line-height:1}
-  .stat span{display:block;margin-top:6px;font-size:12.5px;color:var(--faint);
-             letter-spacing:.4px}
+  .stat span{display:block;margin-top:6px;font-size:12.5px;color:var(--fg-faint);letter-spacing:.4px}
 
-  /* ---- feature rows ---- */
-  .feature{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;
-           padding:56px 0}
+  /* ═══ section opener ═══ */
+  .opener{text-align:center}
+  .opener .eyebrow{display:block}
+
+  /* ═══ feature rows ═══ */
+  .feature{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding:56px 0}
   .feature.flip .copy{order:2}
   .feature.flip .art{order:1}
   .feature .art{display:flex;justify-content:center}
   .feature .art img{width:280px;max-width:74vw;aspect-ratio:500/899;
                     filter:drop-shadow(0 22px 40px rgba(28,35,43,.15))}
-  .feature h2{font-size:clamp(24px,3vw,32px);color:var(--ink);line-height:1.18}
-  .feature .copy p{color:var(--soft);font-size:17px;margin-top:14px;max-width:42ch}
+  .feature h2{font-size:clamp(24px,3vw,32px);color:var(--fg);line-height:1.18}
+  .feature .copy p{color:var(--fg-soft);font-size:17px;margin-top:14px;max-width:42ch}
+  .feature .copy .folio{margin-left:0;margin-right:0}
   .feature .copy .eyebrow{margin-bottom:12px;display:block}
   .miniList{list-style:none;padding:0;margin:20px 0 0}
-  .miniList li{position:relative;padding-left:24px;margin:10px 0;color:var(--soft);font-size:15.5px}
+  .miniList li{position:relative;padding-left:24px;margin:10px 0;color:var(--fg-soft);font-size:15.5px}
   .miniList li .khatam{position:absolute;left:0;top:3px;font-size:13px}
 
-  /* ---- collection: the book's own structure as the visual ---- */
+  /* ═══ collection ═══ */
   .collection{padding:60px 0 8px;text-align:center}
-  .collection .eyebrow{display:block;margin-bottom:12px}
   .collection h2{font-size:clamp(24px,3vw,32px)}
-  .collection .lead{color:var(--soft);font-size:17px;max-width:60ch;margin:14px auto 0}
+  .collection .lead{color:var(--fg-soft);font-size:17px;max-width:60ch;margin:14px auto 0}
   .sections{display:grid;gap:12px;margin:34px auto 0;max-width:920px;
             grid-template-columns:repeat(auto-fill,minmax(196px,1fr))}
   .sec{display:flex;align-items:baseline;justify-content:space-between;gap:10px;
-       background:var(--card);border:1px solid var(--hair);border-radius:12px;
+       background:var(--surface);border:1px solid var(--line);border-radius:12px;
        padding:14px 16px;text-align:left}
-  .sec b{font-family:var(--serif);font-size:16px;font-weight:600;color:var(--ink);line-height:1.15}
-  .sec span{font-size:12px;color:var(--faint);white-space:nowrap;
+  .sec b{font-family:var(--serif);font-size:16px;font-weight:600;color:var(--fg);line-height:1.15}
+  .sec span{font-size:12px;color:var(--fg-faint);white-space:nowrap;
             font-variant-numeric:tabular-nums;letter-spacing:.3px}
   .tags{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:30px auto 0;max-width:640px}
-  .tag{display:inline-flex;align-items:center;gap:8px;font-size:14.5px;color:var(--soft);
-       border:1px solid var(--hair);border-radius:999px;padding:8px 15px;background:var(--paper)}
+  .tag{display:inline-flex;align-items:center;gap:8px;font-size:14.5px;color:var(--fg-soft);
+       border:1px solid var(--line);border-radius:999px;padding:8px 15px;background:var(--bg)}
   .tag .khatam{font-size:12px}
 
-  /* ---- night band (the dark screenshot dissolves into it) ---- */
-  .night{background:var(--night);color:var(--night-ink);margin-top:8px}
+  /* ═══ night band (the apex) ═══ */
+  .night{background:var(--night);color:var(--night-ink);margin-top:8px;position:relative;overflow:hidden}
   .night .wrap{width:var(--page);margin:0 auto;display:grid;
                grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding:66px 0}
   .night h2{color:#F4EFE2;font-size:clamp(24px,3vw,32px)}
   .night p{color:#B9B2A2;font-size:17px;margin-top:14px;max-width:40ch}
+  .night .folio{color:var(--gild-glow)}
   .night .eyebrow{color:#C9A54B;margin-bottom:12px;display:block}
   .night .art{display:flex;justify-content:center}
   .night .art img{width:270px;max-width:74vw;aspect-ratio:500/899;
                   filter:drop-shadow(0 26px 50px rgba(0,0,0,.5))}
 
-  /* ---- languages ---- */
+  /* ═══ languages ═══ */
   .langs{text-align:center;padding:64px 0 8px}
-  .langs h2{font-size:clamp(24px,3vw,32px);margin-top:10px}
-  .langs p{color:var(--soft);font-size:17px;max-width:54ch;margin:14px auto 0}
-  .pills{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:28px auto 0;
-         max-width:640px}
-  .pill{border:1px solid var(--hair);background:var(--card);border-radius:999px;
-        padding:9px 17px;font-size:15px;color:var(--ink);font-weight:500}
+  .langs h2{font-size:clamp(24px,3vw,32px)}
+  .langs p{color:var(--fg-soft);font-size:17px;max-width:54ch;margin:14px auto 0}
+  .pills{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:28px auto 0;max-width:640px}
+  .pill{border:1px solid var(--line);background:var(--surface);border-radius:999px;
+        padding:9px 17px;font-size:15px;color:var(--fg);font-weight:500}
   .pill.soon{color:var(--gold-text);border-color:var(--gold-soft);background:var(--gold-soft)}
   .pill.soon small{opacity:.75;font-weight:400}
 
-  /* ---- support + privacy ---- */
+  /* ═══ support + privacy ═══ */
   .doc{padding:64px 0 8px}
-  .doc h2{font-size:clamp(24px,3vw,30px);display:flex;align-items:center;gap:12px}
-  .doc h2 .khatam{font-size:19px}
-  .doc p{color:var(--soft);font-size:16.5px;margin-top:14px;max-width:64ch}
-  .contact{margin:22px 0 0;background:var(--card);border:1px solid var(--hair);
+  .doc h2{font-size:clamp(24px,3vw,30px)}
+  .doc p{color:var(--fg-soft);font-size:16.5px;margin-top:14px;max-width:64ch}
+  .contact{margin:22px 0 0;background:var(--surface);border:1px solid var(--line);
            border-radius:16px;padding:22px 26px;max-width:64ch}
   .contact .eyebrow{display:block;margin-bottom:7px}
   .contact a{font-family:var(--serif);font-size:21px}
   .plist{list-style:none;padding:0;margin:20px 0 0;max-width:66ch}
-  .plist li{position:relative;padding-left:26px;margin:12px 0;color:var(--soft);font-size:16px}
+  .plist li{position:relative;padding-left:26px;margin:12px 0;color:var(--fg-soft);font-size:16px}
   .plist li .khatam{position:absolute;left:0;top:4px;font-size:13px}
-  .plist li b{color:var(--ink);font-weight:600}
-  .note{color:var(--faint);font-size:14px;margin-top:18px;max-width:64ch}
+  .plist li b{color:var(--fg);font-weight:600}
+  .note{color:var(--fg-faint);font-size:14px;margin-top:18px;max-width:64ch}
 
-  /* ---- footer ---- */
-  footer{width:var(--page);margin:64px auto 0;border-top:1px solid var(--hair);
-         padding:30px 0 60px;color:var(--faint);font-size:13.5px;text-align:center}
+  /* ═══ footer ═══ */
+  footer{width:var(--page);margin:64px auto 0;border-top:1px solid var(--line);
+         padding:34px 0 60px;color:var(--fg-faint);font-size:13.5px;text-align:center}
+  footer .colophon{display:block;width:40px;height:40px;border-radius:9px;margin:0 auto 16px;opacity:.95}
   footer .brand{justify-content:center;margin-bottom:12px;font-size:17px}
   footer p{margin:6px auto;max-width:60ch}
   footer .fine{font-size:12.5px;opacity:.85}
 
+  /* ═══ responsive ═══ */
   @media (max-width:760px){
     .navlinks{display:none}
     .feature,.night .wrap{grid-template-columns:1fr;gap:30px;text-align:center}
     .feature.flip .copy,.feature.flip .art{order:0}
     .feature .copy p,.night p{margin-left:auto;margin-right:auto}
+    .feature .copy .folio{margin-left:auto;margin-right:auto}
     .miniList{display:inline-block;text-align:left}
-    .stat{flex-basis:50%;border-right:0;border-bottom:1px solid var(--hair)}
+    .stat{flex-basis:50%;border-right:0;border-bottom:1px solid var(--line)}
     .stat:nth-last-child(-n+1){border-bottom:0}
   }
-  /* Motion is a one-time hero load-in only — CSS-driven, always completes, and
-     never gates content visibility (everything is visible without JS). */
+
+  /* ═══ motion — pure enhancement, only when JS present & motion welcome ═══ */
   @media (prefers-reduced-motion:no-preference){
-    .hero .appicon,.hero .bism,.hero h1,.hero .lede,.hero .sub,
-    .hero .heroActions,.hero .heroShot{animation:riseIn .8s cubic-bezier(.22,.61,.36,1) both}
+    /* one-time hero load-in */
+    .hero .appicon,.hero .bism,.hero h1,.hero .lede,
+    .hero .heroActions,.hero .heroShot,.hero .folio{
+      animation:riseIn .8s cubic-bezier(.22,.61,.36,1) both}
+    .hero .folio{animation-delay:.02s}
     .hero .bism{animation-delay:.05s}
     .hero h1{animation-delay:.11s}
     .hero .lede{animation-delay:.18s}
     .hero .sub{animation-delay:.26s}
     .hero .heroActions{animation-delay:.34s}
     .hero .heroShot{animation-delay:.42s}
+
+    /* heading "inking": a single RTL / LTR clip wipe over live text */
+    .js .wipe{clip-path:inset(0 0 0 100%);
+              transition:clip-path .7s cubic-bezier(.16,.84,.32,1)}
+    .js .wipe.ltr{clip-path:inset(0 100% 0 0)}
+    .js .wipe.in{clip-path:inset(0 0 0 0)}
+
+    /* body copy + cards rise in on enter */
+    .js .rise{opacity:0;transform:translateY(12px);
+              transition:opacity .6s ease,transform .6s cubic-bezier(.22,.61,.36,1)}
+    .js .rise.in{opacity:1;transform:none}
   }
   @keyframes riseIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 </style>
 </head>
 <body>
 
+<!-- the 8-point star bullet, drawn from the app mark -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="khatam" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/>
+  </symbol>
+</svg>
+
 <!-- ═══ Top bar ═══ -->
 <div class="bar">
   <div class="inner">
     <a class="brand" href="#top">
-      <span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span>
+      <img class="mark" src="icon.png" alt="" aria-hidden="true" width="24" height="24">
       joxon.uz
     </a>
     <nav>
@@ -227,8 +287,10 @@
 
 <!-- ═══ Hero ═══ -->
 <section class="hero">
-  <img class="appicon" src="icon.png" alt="Sahih al-Bukhari app icon" width="88" height="88">
-  <div class="bism">صحيح البخاري</div>
+  <span class="lamp" aria-hidden="true"></span>
+  <img class="appicon" src="icon.png" alt="Sahih al-Bukhari app icon" width="96" height="96">
+  <span class="folio" aria-hidden="true">٠١</span>
+  <div class="bism wipe">صحيح البخاري</div>
   <h1>Sahih al-Bukhari</h1>
   <p class="lede">The most authentic book after the Qur’an — as a book you’ll want to open.</p>
   <p class="sub">A calm, modern reader for the whole collection: all 97 books, page by page,
@@ -245,25 +307,26 @@
 <!-- ═══ Stat strip ═══ -->
 <section>
   <div class="stats reveal">
-    <div class="stat"><b>97</b><span>books, in full</span></div>
-    <div class="stat"><b>7,583</b><span>hadith</span></div>
-    <div class="stat"><b>100%</b><span>offline</span></div>
-    <div class="stat"><b>0</b><span>ads &amp; trackers</span></div>
+    <div class="stat"><span class="tick"></span><b><span class="num" data-to="97">97</span></b><span>books, in full</span></div>
+    <div class="stat"><span class="tick"></span><b><span class="num" data-to="7583" data-comma="1">7,583</span></b><span>hadith</span></div>
+    <div class="stat"><span class="tick"></span><b><span class="num" data-to="100">100</span>%</b><span>offline</span></div>
+    <div class="stat"><span class="tick"></span><b>0</b><span>ads &amp; trackers</span></div>
   </div>
 </section>
 
 <!-- ═══ Feature: the reader ═══ -->
 <section class="feature reveal">
   <div class="copy">
+    <span class="folio" aria-hidden="true">٠٢</span>
     <span class="eyebrow">A page you turn</span>
-    <h2>The book, made modern.</h2>
-    <p>Every narration set like a page worth keeping — the Arabic in Amiri, a clear
+    <h2 class="wipe ltr">The book, made modern.</h2>
+    <p class="rise">Every narration set like a page worth keeping — the Arabic in Amiri, a clear
        translation beneath, the narrator named, the grade shown. Turn page by page
        or read in one continuous scroll.</p>
-    <ul class="miniList">
-      <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span>Adjustable type size, day &amp; night themes</li>
-      <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span>A ribbon that remembers where you stopped</li>
-      <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span>Listen aloud, hands-free</li>
+    <ul class="miniList rise">
+      <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span>Adjustable type size, day &amp; night themes</li>
+      <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span>A ribbon that remembers where you stopped</li>
+      <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span>Listen aloud, hands-free</li>
     </ul>
   </div>
   <div class="art"><img src="shots/2_reader.png" alt="The reader screen showing a hadith with Arabic, translation and narrator." loading="lazy"></div>
@@ -271,9 +334,12 @@
 
 <!-- ═══ The whole book, by its own structure ═══ -->
 <section class="collection reveal">
-  <span class="eyebrow">All of it, in your pocket</span>
-  <h2>The complete collection, grouped to browse.</h2>
-  <p class="lead">All 97 books, arranged into thirteen plain-language sections — so you always
+  <div class="opener">
+    <span class="folio" aria-hidden="true">٠٣</span>
+    <span class="eyebrow">All of it, in your pocket</span>
+    <h2 class="wipe ltr">The complete collection, grouped to browse.</h2>
+  </div>
+  <p class="lead rise">All 97 books, arranged into thirteen plain-language sections — so you always
      know where you are in the book. Find your place at a glance, then read page by page.</p>
   <div class="sections">
     <div class="sec"><b>The Beginning</b><span>Books 1–3</span></div>
@@ -291,9 +357,9 @@
     <div class="sec"><b>Dreams, Trials &amp; Belief</b><span>91–97</span></div>
   </div>
   <div class="tags">
-    <span class="tag"><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span>Instant offline search, with “did you mean?”</span>
-    <span class="tag"><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span>Per-book progress, quietly tracked</span>
-    <span class="tag"><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span>A home-screen widget for the day’s hadith</span>
+    <span class="tag"><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span>Instant offline search, with “did you mean?”</span>
+    <span class="tag"><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span>Per-book progress, quietly tracked</span>
+    <span class="tag"><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span>A home-screen widget for the day’s hadith</span>
   </div>
 </section>
 
@@ -301,9 +367,10 @@
 <div class="night">
   <div class="wrap reveal">
     <div class="copy">
+      <span class="folio" aria-hidden="true">٠٤</span>
       <span class="eyebrow">Beautiful, day or night</span>
-      <h2>A reading light that’s easy on the eyes.</h2>
-      <p>A warm night theme for late reading and quiet mornings — the same page,
+      <h2 class="wipe ltr">A reading light that’s easy on the eyes.</h2>
+      <p class="rise">A warm night theme for late reading and quiet mornings — the same page,
          dimmed to candlelight. Nothing glares; nothing pulls you away.</p>
     </div>
     <div class="art"><img src="shots/5_night.png" alt="The reader in its night theme." loading="lazy"></div>
@@ -313,9 +380,12 @@
 <!-- ═══ Languages ═══ -->
 <a id="languages"></a>
 <section class="langs reveal">
-  <span class="eyebrow">Read it in your language</span>
-  <h2>The Arabic original, with translations.</h2>
-  <p>The verified Arabic text at the centre, with translations alongside — and an
+  <div class="opener">
+    <span class="folio" aria-hidden="true">٠٥</span>
+    <span class="eyebrow">Read it in your language</span>
+    <h2 class="wipe ltr">The Arabic original, with translations.</h2>
+  </div>
+  <p class="rise">The verified Arabic text at the centre, with translations alongside — and an
      interface that speaks your language. Uzbek comes first: a fully localized
      experience today, with the complete Uzbek translation in careful preparation.</p>
   <div class="pills">
@@ -335,7 +405,8 @@
 <!-- ═══ Support ═══ -->
 <a id="support"></a>
 <section class="doc">
-  <h2><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span>Support</h2>
+  <span class="folio" aria-hidden="true">٠٦</span>
+  <h2 class="wipe ltr">Support</h2>
   <p>Questions, feedback, or something that looks wrong in the app — a hadith, the
      Arabic, a translation, or the reading experience? Please get in touch. Every
      message is read, and accuracy reports are taken seriously.</p>
@@ -348,15 +419,16 @@
 <!-- ═══ Privacy ═══ -->
 <a id="privacy"></a>
 <section class="doc">
-  <h2><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span>Privacy</h2>
+  <span class="folio" aria-hidden="true">٠٧</span>
+  <h2 class="wipe ltr">Privacy</h2>
   <p>Sahih al-Bukhari is built to collect nothing and track nothing. It works fully
      offline.</p>
   <ul class="plist">
-    <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span><b>No data is collected.</b> There are no accounts, no sign-up, and no analytics.</li>
-    <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span><b>No tracking.</b> No advertising or tracking technologies of any kind.</li>
-    <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span><b>No network calls.</b> All content is bundled in the app; it does not connect to any server during use.</li>
-    <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span><b>Your data stays on your device.</b> Bookmarks, reading position, streak, and settings never leave it.</li>
-    <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span><b>Audio is on-device.</b> The optional “Listen” feature uses your device’s built-in text-to-speech — a synthesized voice, processed on-device, and labelled as such in the app.</li>
+    <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span><b>No data is collected.</b> There are no accounts, no sign-up, and no analytics.</li>
+    <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span><b>No tracking.</b> No advertising or tracking technologies of any kind.</li>
+    <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span><b>No network calls.</b> All content is bundled in the app; it does not connect to any server during use.</li>
+    <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span><b>Your data stays on your device.</b> Bookmarks, reading position, streak, and settings never leave it.</li>
+    <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span><b>Audio is on-device.</b> The optional “Listen” feature uses your device’s built-in text-to-speech — a synthesized voice, processed on-device, and labelled as such in the app.</li>
   </ul>
   <p class="note">Because no personal data is collected, there is nothing to request, export,
      or delete from us. Removing the app removes all of its data from your device. If this
@@ -365,8 +437,9 @@
 
 <!-- ═══ Footer ═══ -->
 <footer>
+  <img class="colophon" src="icon.png" alt="" aria-hidden="true" width="40" height="40">
   <div class="brand">
-    <span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1l2.6 6.8L21 5.6l-2.2 6.4L21 18.4l-6.4-2.2L12 23l-2.6-6.8L3 18.4l2.2-6.4L3 5.6l6.4 2.2z"/></svg></span>
+    <span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span>
     joxon.uz
   </div>
   <p>Sahih al-Bukhari — read and listened, fully offline.</p>
@@ -374,6 +447,96 @@
   <p class="fine">Arabic text from verified sources; the Uzbek daily hadith is shown under the
      re-publication terms of HadeethEnc.com.</p>
 </footer>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var revealSel='.reveal, .wipe, .rise';
+  var revealEls=[].slice.call(document.querySelectorAll(revealSel));
+  function showAll(){ revealEls.forEach(function(el){ el.classList.add('in'); }); }
+
+  function setFinals(){
+    [].forEach.call(document.querySelectorAll('.num'),function(el){
+      var to=parseInt(el.getAttribute('data-to'),10);
+      el.textContent=el.getAttribute('data-comma')? to.toLocaleString('en-US'):String(to);
+    });
+  }
+
+  if(reduce){ showAll(); setFinals(); return; }
+
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    },{threshold:0.18, rootMargin:'0px 0px -8% 0px'});
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else { showAll(); }
+
+  /* ── stat count-up ── */
+  var counted=false;
+  function counts(){
+    if(counted) return; counted=true;
+    [].forEach.call(document.querySelectorAll('.num'),function(el){
+      var to=parseInt(el.getAttribute('data-to'),10);
+      var comma=el.getAttribute('data-comma');
+      if(!to){ return; }
+      var start=performance.now(), dur=1100;
+      function tick(now){
+        var t=Math.min(1,(now-start)/dur);
+        var e=1-Math.pow(1-t,3);
+        var v=Math.round(to*e);
+        el.textContent=comma? v.toLocaleString('en-US') : String(v);
+        if(t<1) requestAnimationFrame(tick);
+      }
+      el.textContent='0';
+      requestAnimationFrame(tick);
+    });
+  }
+  var stats=document.querySelector('.stats');
+  if(stats && 'IntersectionObserver' in window){
+    new IntersectionObserver(function(en,ob){
+      if(en[0].isIntersecting){ counts(); ob.disconnect(); }
+    },{threshold:0.6}).observe(stats);
+  } else { counts(); }
+
+  /* ── the Vigil: one passive scroll + rAF loop writing --dusk (day → night) ── */
+  var night=document.querySelector('.night');
+  var support=document.getElementById('support');
+  var hero=document.querySelector('.hero');
+  if(!night||!hero) return;
+  var m={};
+  function measure(){
+    m.vh=window.innerHeight;
+    m.start=hero.offsetTop+hero.offsetHeight*0.55;
+    m.night=night.offsetTop+night.offsetHeight*0.5;
+    m.support=support?support.offsetTop:(m.night+m.vh*2);
+    if(m.support<=m.night) m.support=m.night+m.vh;
+  }
+  function smooth(t){ t=t<0?0:t>1?1:t; return t*t*(3-2*t); }
+  var FLOOR=0.18;
+  function duskAt(mid){
+    if(mid<=m.start) return 0;
+    if(mid<=m.night) return smooth((mid-m.start)/(m.night-m.start));
+    if(mid<=m.support){ return 1-(1-FLOOR)*smooth((mid-m.night)/(m.support-m.night)); }
+    return FLOOR;
+  }
+  var ticking=false,last=-1;
+  function update(){
+    ticking=false;
+    var mid=window.scrollY+m.vh*0.5;
+    var d=duskAt(mid);
+    if(Math.abs(d-last)>0.002){ last=d; root.style.setProperty('--dusk', d.toFixed(4)); }
+  }
+  function onScroll(){ if(!ticking){ ticking=true; requestAnimationFrame(update); } }
+  measure(); update();
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('resize',function(){ measure(); update(); },{passive:true});
+  window.addEventListener('load',function(){ measure(); update(); });
+})();
+</script>
 
 </body>
 </html>
