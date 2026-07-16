@@ -98,15 +98,30 @@
   .brand:hover{text-decoration:none}
   .brand .mark{width:24px;height:24px;border-radius:6px;display:block}
   .bar nav{margin-left:auto;display:flex;align-items:center;gap:26px}
-  .bar nav a{color:var(--fg-soft);font-size:14.5px}
-  .bar nav a:hover{color:var(--fg);text-decoration:none}
+  .bar nav a:not(.cta){color:var(--fg-soft);font-size:14.5px}
+  .bar nav a:not(.cta):hover{color:var(--fg);text-decoration:none}
   .navlinks{display:flex;gap:26px}
+  /* The Download pill wears the app icon's own livery — candlelight gold on
+     deep navy — with fixed colors so no state can ever dim the label. */
   .cta{display:inline-flex;align-items:center;gap:8px;
-       background:var(--ink);background:var(--fg);color:var(--paper);color:var(--bg);
-       font-size:14px;font-weight:600;padding:9px 16px;border-radius:11px;
-       transition:transform .15s ease,filter .15s ease;white-space:nowrap}
-  .cta:hover{filter:brightness(.82);text-decoration:none;transform:translateY(-1px)}
-  .cta small{font-weight:400;opacity:.7;font-size:11px}
+       background:linear-gradient(180deg,#232B35,#1A212A);
+       color:var(--gild-glow);
+       border:1px solid rgba(228,196,106,.30);
+       box-shadow:0 1px 2px rgba(28,35,43,.18);
+       font-size:14px;font-weight:600;letter-spacing:.2px;
+       padding:9px 19px;border-radius:999px;white-space:nowrap;
+       transition:transform .18s ease,box-shadow .18s ease,
+                  border-color .18s ease,color .18s ease}
+  .cta .glyph{width:13px;height:13px;fill:currentColor;flex:none;
+              transform:translateY(-.5px)}
+  .cta:hover{color:#F0D48A;border-color:rgba(228,196,106,.6);
+             box-shadow:0 7px 20px rgba(28,35,43,.30),
+                        0 0 0 4px rgba(228,196,106,.14);
+             transform:translateY(-1px);text-decoration:none}
+  .cta:active{transform:translateY(0);
+              box-shadow:0 2px 8px rgba(28,35,43,.24),
+                         0 0 0 3px rgba(228,196,106,.10)}
+  .cta:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 
   /* ═══ App Store badge ═══ */
   /* Apple logo path from Font Awesome Free (CC BY 4.0) — fontawesome.com */
@@ -361,7 +376,10 @@
         <a href="#support">Support</a>
         <a href="#privacy">Privacy</a>
       </div>
-      <a class="cta" href="https://apps.apple.com/app/sahih-al-bukhari/id6788182497">Download</a>
+      <a class="cta" href="https://apps.apple.com/app/sahih-al-bukhari/id6788182497">
+        <svg class="glyph" viewBox="0 0 384 512" aria-hidden="true"><use href="#applelogo"/></svg>
+        Download
+      </a>
     </nav>
   </div>
 </div>
