@@ -136,6 +136,30 @@
   .store .lines small{font-size:10.5px;letter-spacing:.4px;opacity:.78;font-weight:500}
   .store .lines b{font-size:17.5px;font-weight:600;letter-spacing:.1px}
 
+  /* ═══ language switcher ═══ */
+  .langsw{display:inline-flex;align-items:center;border:1px solid var(--line);
+          border-radius:999px;overflow:hidden;background:var(--surface)}
+  .langsw button{appearance:none;-webkit-appearance:none;border:0;background:transparent;
+          cursor:pointer;font-family:var(--sans);font-size:12.5px;font-weight:600;
+          letter-spacing:.4px;color:var(--fg-soft);padding:6px 11px;line-height:1;
+          transition:color .15s ease,background-color .15s ease}
+  .langsw button+button{border-left:1px solid var(--line)}
+  .langsw button:hover{color:var(--fg)}
+  .langsw button[aria-pressed="true"]{color:#fff;
+          background:color-mix(in oklab, var(--cobalt), var(--gild-glow) calc(var(--dusk)*40%))}
+  .langsw button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+  /* percent sign in the stat strip: the serif % draws large next to the
+     digits — hold it to the numerals' height so "100%" reads as one figure */
+  .stat b{white-space:nowrap;font-variant-numeric:lining-nums tabular-nums;
+          font-feature-settings:"lnum" 1,"tnum" 1}
+  /* `.stat span{display:block}` (defined below, for the label) also matches the
+     number/percent spans and would stack "100" over "%"; keep them inline so the
+     figure reads as one — the serif % is held to .72em so it doesn't tower. */
+  .stat b .num{display:inline;font:inherit;color:inherit;letter-spacing:0;margin:0}
+  .stat b .unit{display:inline;font-size:.72em;color:inherit;vertical-align:baseline;
+                letter-spacing:0;margin:0 0 0 1px}
+
   /* ═══ shared frame ═══ */
   section{width:var(--page);margin:0 auto;position:relative}
   .rule{width:var(--page);margin:0 auto;height:1px;background:var(--line)}
@@ -370,15 +394,20 @@
     </a>
     <nav>
       <div class="navlinks">
-        <a href="#book">The book</a>
-        <a href="#imam">The Imam</a>
-        <a href="#app">The app</a>
-        <a href="#support">Support</a>
-        <a href="#privacy">Privacy</a>
+        <a href="#book" data-i18n="nav.book">The book</a>
+        <a href="#imam" data-i18n="nav.imam">The Imam</a>
+        <a href="#app" data-i18n="nav.app">The app</a>
+        <a href="#support" data-i18n="nav.support">Support</a>
+        <a href="#privacy" data-i18n="nav.privacy">Privacy</a>
+      </div>
+      <div class="langsw" role="group" aria-label="Language">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="ru" aria-pressed="false">RU</button>
+        <button type="button" data-lang="uz" aria-pressed="false">UZ</button>
       </div>
       <a class="cta" href="https://apps.apple.com/app/sahih-al-bukhari/id6788182497">
         <svg class="glyph" viewBox="0 0 384 512" aria-hidden="true"><use href="#applelogo"/></svg>
-        Download
+        <span data-i18n="cta.download">Download</span>
       </a>
     </nav>
   </div>
@@ -392,29 +421,29 @@
   <img class="appicon" src="icon.png" alt="Sahih al-Bukhari app icon" width="92" height="92">
   <span class="folio" aria-hidden="true">٠١</span>
   <div class="bism wipe" lang="ar" dir="rtl">صحيح البخاري</div>
-  <h1>Sahih al-Bukhari</h1>
-  <p class="lede">Honoured for nearly twelve centuries as the most authentic book after the Qurʼan — the life’s work of a son of Bukhara.</p>
-  <p class="sub">All 97 books and 7,563 hadith, set like a book you’ll want to open — fully offline,
+  <h1 data-i18n="hero.name">Sahih al-Bukhari</h1>
+  <p class="lede" data-i18n="hero.lede">Honoured for nearly twelve centuries as the most authentic book after the Qurʼan — the life’s work of a son of Bukhara.</p>
+  <p class="sub" data-i18n="hero.sub">All 97 books and 7,563 hadith, set like a book you’ll want to open — fully offline,
      with the story of Imam al-Bukhari, who gave sixteen years to gather it.
      No ads. No tracking. No sign-up.</p>
   <div class="heroActions">
     <a class="store" href="https://apps.apple.com/app/sahih-al-bukhari/id6788182497">
       <svg aria-hidden="true"><use href="#applelogo"/></svg>
-      <span class="lines"><small>Download on the</small><b>App&nbsp;Store</b></span>
+      <span class="lines"><small data-i18n="store.small">Download on the</small><b>App&nbsp;Store</b></span>
     </a>
-    <a class="ghost" href="#imam">The story of the Imam</a>
+    <a class="ghost" href="#imam" data-i18n="hero.ghost">The story of the Imam</a>
   </div>
-  <p class="avail">For iPhone, iPad, Mac, Apple&nbsp;TV &amp; Apple&nbsp;Vision</p>
+  <p class="avail" data-i18n="hero.avail">For iPhone, iPad, Mac, Apple&nbsp;TV &amp; Apple&nbsp;Vision</p>
   <img class="heroShot" src="shots/1_today.png" alt="The Today screen: the daily hadith, reading streak, and progress through the book." fetchpriority="high">
 </section>
 
 <!-- ═══ Stat strip ═══ -->
 <section>
   <div class="stats reveal">
-    <div class="stat"><span class="tick"></span><b><span class="num" data-to="97">97</span></b><span>books, in full</span></div>
-    <div class="stat"><span class="tick"></span><b><span class="num" data-to="7563" data-comma="1">7,563</span></b><span>hadith</span></div>
-    <div class="stat"><span class="tick"></span><b><span class="num" data-to="100">100</span>%</b><span>offline</span></div>
-    <div class="stat"><span class="tick"></span><b>0</b><span>ads &amp; trackers</span></div>
+    <div class="stat"><span class="tick"></span><b><span class="num" data-to="97">97</span></b><span data-i18n="stat.books">books, in full</span></div>
+    <div class="stat"><span class="tick"></span><b><span class="num" data-to="7563" data-comma="1">7,563</span></b><span data-i18n="stat.hadith">hadith</span></div>
+    <div class="stat"><span class="tick"></span><b><span class="num" data-to="100">100</span><span class="unit">%</span></b><span data-i18n="stat.offline">offline</span></div>
+    <div class="stat"><span class="tick"></span><b>0</b><span data-i18n="stat.ads">ads &amp; trackers</span></div>
   </div>
 </section>
 
@@ -423,35 +452,35 @@
 <section class="book reveal">
   <div class="opener">
     <span class="folio" aria-hidden="true">٠٢</span>
-    <span class="eyebrow">The book</span>
-    <h2 class="wipe ltr">He gave it a precise name.</h2>
-    <p class="lead rise">Not a book of opinions, and not a book of stories — a collection in which
+    <span class="eyebrow" data-i18n="book.eyebrow">The book</span>
+    <h2 class="wipe ltr" data-i18n="book.h2">He gave it a precise name.</h2>
+    <p class="lead rise" data-i18n="book.lead">Not a book of opinions, and not a book of stories — a collection in which
        every narration met the strictest test its author could devise.</p>
   </div>
   <div class="titleplate rise">
     <span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span>
     <p class="ar" lang="ar">الجامع المسند الصحيح المختصر من أمور رسول الله ﷺ وسننه وأيامه</p>
     <p class="tr">al-Jāmiʿ al-Musnad al-Ṣaḥīḥ al-Mukhtaṣar min Umūr Rasūl Allāh ﷺ wa-Sunanihi wa-Ayyāmihi</p>
-    <p class="en">The comprehensive, fully chained, authentic, abridged collection of the affairs of the
+    <p class="en" data-i18n="book.plate.en">The comprehensive, fully chained, authentic, abridged collection of the affairs of the
        Messenger of God ﷺ, his practice, and his times — known ever since, simply, as Sahih al-Bukhari.</p>
   </div>
   <div class="cards3">
     <div class="mcard rise">
       <span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span>
-      <h3>An unbroken chain</h3>
-      <p>Every hadith is carried by a chain of trustworthy narrators — each one known, weighed,
+      <h3 data-i18n="book.card1.h3">An unbroken chain</h3>
+      <p data-i18n="book.card1.p">Every hadith is carried by a chain of trustworthy narrators — each one known, weighed,
          and shown to have actually met the one he heard from. A stricter bar than any before it.</p>
     </div>
     <div class="mcard rise">
       <span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span>
-      <h3>One in eighty</h3>
-      <p>Of some six hundred thousand narrations he weighed, about one in eighty earned
+      <h3 data-i18n="book.card2.h3">One in eighty</h3>
+      <p data-i18n="book.card2.p">Of some six hundred thousand narrations he weighed, about one in eighty earned
          a place — 7,563 hadith, and not one he doubted.</p>
     </div>
     <div class="mcard rise">
       <span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span>
-      <h3>Second only to the Qurʼan</h3>
-      <p>For nearly twelve centuries, Sunni scholarship has honoured it as the most authentic
+      <h3 data-i18n="book.card3.h3">Second only to the Qurʼan</h3>
+      <p data-i18n="book.card3.p">For nearly twelve centuries, Sunni scholarship has honoured it as the most authentic
          book after the Book of God. The text is presented unaltered — here, and in the app.</p>
     </div>
   </div>
@@ -462,60 +491,60 @@
 <section class="imam">
   <div class="opener reveal">
     <span class="folio" aria-hidden="true">٠٣</span>
-    <span class="eyebrow">The Imam of Bukhara</span>
-    <h2 class="wipe ltr">One man walked out of Bukhara and wrote it all down.</h2>
-    <p class="name">Muḥammad ibn Ismāʿīl al-Bukhārī</p>
-    <p class="dates">194–256 AH · 810–870 CE</p>
+    <span class="eyebrow" data-i18n="imam.eyebrow">The Imam of Bukhara</span>
+    <h2 class="wipe ltr" data-i18n="imam.h2">One man walked out of Bukhara and wrote it all down.</h2>
+    <p class="name" data-i18n="imam.name">Muḥammad ibn Ismāʿīl al-Bukhārī</p>
+    <p class="dates" data-i18n="imam.dates">194–256 AH · 810–870 CE</p>
   </div>
   <div class="timeline">
     <div class="tnode rise">
       <span class="dot" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span>
-      <span class="when">194 AH · 810 CE — Bukhara</span>
-      <h3>A son of Bukhara</h3>
-      <p>He was born in Bukhara, in present-day Uzbekistan, and lost his father in infancy,
+      <span class="when" data-i18n="imam.t1.when">194 AH · 810 CE — Bukhara</span>
+      <h3 data-i18n="imam.t1.h3">A son of Bukhara</h3>
+      <p data-i18n="imam.t1.p">He was born in Bukhara, in present-day Uzbekistan, and lost his father in infancy,
          growing up in his mother’s care. It is related that he lost his sight as a child —
          and that God restored it through her constant supplication.</p>
     </div>
     <div class="tnode rise">
       <span class="dot" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span>
-      <span class="when">Age sixteen — Mecca</span>
-      <h3>The journey begins</h3>
-      <p>At sixteen he set out for Mecca on pilgrimage with his mother and brother — and when
+      <span class="when" data-i18n="imam.t2.when">Age sixteen — Mecca</span>
+      <h3 data-i18n="imam.t2.h3">The journey begins</h3>
+      <p data-i18n="imam.t2.p">At sixteen he set out for Mecca on pilgrimage with his mother and brother — and when
          they returned home, he stayed behind to study.</p>
     </div>
     <div class="tnode rise">
       <span class="dot" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span>
-      <span class="when">The lands of Islam</span>
-      <h3>A thousand teachers</h3>
-      <p>For many years he journeyed — the Hejaz, Iraq, Syria, Egypt, the cities of Khurasan —
+      <span class="when" data-i18n="imam.t3.when">The lands of Islam</span>
+      <h3 data-i18n="imam.t3.h3">A thousand teachers</h3>
+      <p data-i18n="imam.t3.p">For many years he journeyed — the Hejaz, Iraq, Syria, Egypt, the cities of Khurasan —
          receiving hadith from more than a thousand teachers.</p>
     </div>
     <div class="tnode rise">
       <span class="dot" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span>
-      <span class="when">Baghdad</span>
-      <h3>The test</h3>
-      <p>The story is famous: the city’s scholars recited a hundred traditions with their chains
+      <span class="when" data-i18n="imam.t4.when">Baghdad</span>
+      <h3 data-i18n="imam.t4.h3">The test</h3>
+      <p data-i18n="imam.t4.p">The story is famous: the city’s scholars recited a hundred traditions with their chains
          deliberately confounded — and he restored every one to its rightful place,
          from a single hearing.</p>
     </div>
     <div class="tnode rise">
       <span class="dot" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span>
-      <span class="when">Sixteen years</span>
-      <h3>The Sahih</h3>
-      <p>From some six hundred thousand narrations he had gathered, over sixteen years he chose
+      <span class="when" data-i18n="imam.t5.when">Sixteen years</span>
+      <h3 data-i18n="imam.t5.h3">The Sahih</h3>
+      <p data-i18n="imam.t5.p">From some six hundred thousand narrations he had gathered, over sixteen years he chose
          only those he was certain were sound — bathing and praying, it is told, before he set
          down each one. What remained he called al-Jāmiʿ al-Ṣaḥīḥ.</p>
     </div>
     <div class="tnode rise">
       <span class="dot" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span>
-      <span class="when">256 AH · 870 CE — Khartank</span>
-      <h3>The last night</h3>
-      <p>Driven from Bukhara for refusing to carry knowledge to a ruler’s door, he withdrew to
+      <span class="when" data-i18n="imam.t6.when">256 AH · 870 CE — Khartank</span>
+      <h3 data-i18n="imam.t6.h3">The last night</h3>
+      <p data-i18n="imam.t6.p">Driven from Bukhara for refusing to carry knowledge to a ruler’s door, he withdrew to
          the village of Khartank near Samarkand, and passed away on the night of Eid al-Fitr.
          His mausoleum stands there to this day — a place of visitation from across the world.</p>
     </div>
   </div>
-  <p class="epigraph rise">From Bukhara to Samarkand — a life given wholly to preserving
+  <p class="epigraph rise" data-i18n="imam.epigraph">From Bukhara to Samarkand — a life given wholly to preserving
      the words of the Prophet ﷺ.</p>
 </section>
 
@@ -524,11 +553,11 @@
   <div class="wrap reveal">
     <div class="copy">
       <span class="folio" aria-hidden="true">٠٤</span>
-      <span class="eyebrow">By lamplight</span>
-      <h2 class="wipe ltr">Written by night. Read by night.</h2>
-      <p class="rise">His scribe recalled that the Imam would rise many times in a night,
+      <span class="eyebrow" data-i18n="night.eyebrow">By lamplight</span>
+      <h2 class="wipe ltr" data-i18n="night.h2">Written by night. Read by night.</h2>
+      <p class="rise" data-i18n="night.p1">His scribe recalled that the Imam would rise many times in a night,
          light his lamp, and set down what he feared to forget.</p>
-      <p class="rise">The app keeps the habit: a warm night theme for late reading and quiet
+      <p class="rise" data-i18n="night.p2">The app keeps the habit: a warm night theme for late reading and quiet
          mornings — the same page, dimmed to candlelight. Nothing glares; nothing pulls you away.</p>
     </div>
     <div class="art"><img src="shots/5_night.png" alt="The reader in its night theme." loading="lazy"></div>
@@ -540,18 +569,18 @@
 <section class="feature reveal">
   <div class="copy">
     <span class="folio" aria-hidden="true">٠٥</span>
-    <span class="eyebrow">The app</span>
-    <h2 class="wipe ltr">The book, made modern.</h2>
-    <p class="rise">Every narration set like a page worth keeping — the Arabic in Amiri, a clear
+    <span class="eyebrow" data-i18n="feat.eyebrow">The app</span>
+    <h2 class="wipe ltr" data-i18n="feat.h2">The book, made modern.</h2>
+    <p class="rise" data-i18n="feat.p">Every narration set like a page worth keeping — the Arabic in Amiri, a clear
        translation beneath, the narrator named, the grade shown. Turn page by page
        or read in one continuous scroll.</p>
     <ul class="miniList rise">
-      <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span>Adjustable type size, day &amp; night themes</li>
-      <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span>A ribbon that remembers where you stopped</li>
-      <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span>Listen aloud, hands-free</li>
-      <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span>A hadith for every day, on your home screen</li>
+      <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span><span data-i18n="feat.li1">Adjustable type size, day &amp; night themes</span></li>
+      <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span><span data-i18n="feat.li2">A ribbon that remembers where you stopped</span></li>
+      <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span><span data-i18n="feat.li3">Listen aloud, hands-free</span></li>
+      <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span><span data-i18n="feat.li4">A hadith for every day, on your home screen</span></li>
     </ul>
-    <a class="ghost rise" href="https://apps.apple.com/app/sahih-al-bukhari/id6788182497">Get it on the App&nbsp;Store</a>
+    <a class="ghost rise" href="https://apps.apple.com/app/sahih-al-bukhari/id6788182497" data-i18n="feat.ghost">Get it on the App&nbsp;Store</a>
   </div>
   <div class="art"><img src="shots/2_reader.png" alt="The reader screen showing a hadith with Arabic, translation and narrator." loading="lazy"></div>
 </section>
@@ -560,31 +589,31 @@
 <section class="collection reveal">
   <div class="opener">
     <span class="folio" aria-hidden="true">٠٦</span>
-    <span class="eyebrow">The whole book</span>
-    <h2 class="wipe ltr">The complete collection, grouped to browse.</h2>
+    <span class="eyebrow" data-i18n="coll.eyebrow">The whole book</span>
+    <h2 class="wipe ltr" data-i18n="coll.h2">The complete collection, grouped to browse.</h2>
   </div>
-  <p class="lead rise" style="max-width:60ch;margin:14px auto 0;color:var(--fg-soft);font-size:17px">
+  <p class="lead rise" data-i18n="coll.lead" style="max-width:60ch;margin:14px auto 0;color:var(--fg-soft);font-size:17px">
      All 97 books, arranged into thirteen plain-language sections — so you always
      know where you are in the book. Find your place at a glance, then read page by page.</p>
   <div class="sections">
-    <div class="sec"><b>The Beginning</b><span>Books 1–3</span></div>
-    <div class="sec"><b>Purification</b><span>4–7</span></div>
-    <div class="sec"><b>Prayer</b><span>8–23</span></div>
-    <div class="sec"><b>Zakat, Fasting &amp; Hajj</b><span>24–33</span></div>
-    <div class="sec"><b>Dealings &amp; Property</b><span>34–55</span></div>
-    <div class="sec"><b>Struggle &amp; Treaties</b><span>56–58</span></div>
-    <div class="sec"><b>Prophets &amp; History</b><span>59–64</span></div>
-    <div class="sec"><b>The Qurʼan</b><span>65–66</span></div>
-    <div class="sec"><b>Family &amp; Food</b><span>67–71</span></div>
-    <div class="sec"><b>Conduct &amp; Daily Life</b><span>72–80</span></div>
-    <div class="sec"><b>Softening the Heart</b><span>81–82</span></div>
-    <div class="sec"><b>Oaths, Law &amp; Justice</b><span>83–90</span></div>
-    <div class="sec"><b>Dreams, Trials &amp; Belief</b><span>91–97</span></div>
+    <div class="sec"><b data-i18n="coll.s1">The Beginning</b><span data-i18n="coll.s1.r">Books 1–3</span></div>
+    <div class="sec"><b data-i18n="coll.s2">Purification</b><span>4–7</span></div>
+    <div class="sec"><b data-i18n="coll.s3">Prayer</b><span>8–23</span></div>
+    <div class="sec"><b data-i18n="coll.s4">Zakat, Fasting &amp; Hajj</b><span>24–33</span></div>
+    <div class="sec"><b data-i18n="coll.s5">Dealings &amp; Property</b><span>34–55</span></div>
+    <div class="sec"><b data-i18n="coll.s6">Struggle &amp; Treaties</b><span>56–58</span></div>
+    <div class="sec"><b data-i18n="coll.s7">Prophets &amp; History</b><span>59–64</span></div>
+    <div class="sec"><b data-i18n="coll.s8">The Qurʼan</b><span>65–66</span></div>
+    <div class="sec"><b data-i18n="coll.s9">Family &amp; Food</b><span>67–71</span></div>
+    <div class="sec"><b data-i18n="coll.s10">Conduct &amp; Daily Life</b><span>72–80</span></div>
+    <div class="sec"><b data-i18n="coll.s11">Softening the Heart</b><span>81–82</span></div>
+    <div class="sec"><b data-i18n="coll.s12">Oaths, Law &amp; Justice</b><span>83–90</span></div>
+    <div class="sec"><b data-i18n="coll.s13">Dreams, Trials &amp; Belief</b><span>91–97</span></div>
   </div>
   <div class="tags">
-    <span class="tag"><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span>Instant offline search, with “did you mean?”</span>
-    <span class="tag"><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span>Per-book progress, quietly tracked</span>
-    <span class="tag"><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span>A home-screen widget for the day’s hadith</span>
+    <span class="tag"><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span><span data-i18n="coll.tag1">Instant offline search, with “did you mean?”</span></span>
+    <span class="tag"><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span><span data-i18n="coll.tag2">Per-book progress, quietly tracked</span></span>
+    <span class="tag"><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span><span data-i18n="coll.tag3">A home-screen widget for the day’s hadith</span></span>
   </div>
 </section>
 
@@ -593,10 +622,10 @@
 <section class="langs reveal">
   <div class="opener">
     <span class="folio" aria-hidden="true">٠٧</span>
-    <span class="eyebrow">Read it in your language</span>
-    <h2 class="wipe ltr">The Arabic original, with translations.</h2>
+    <span class="eyebrow" data-i18n="langs.eyebrow">Read it in your language</span>
+    <h2 class="wipe ltr" data-i18n="langs.h2">The Arabic original, with translations.</h2>
   </div>
-  <p class="body rise">The verified Arabic text at the centre, with translations alongside — and an
+  <p class="body rise" data-i18n="langs.body">The verified Arabic text at the centre, with translations alongside — and an
      interface that speaks your language. Uzbek comes first: a fully localized
      experience today, with the complete Uzbek translation in careful preparation.</p>
   <div class="pills">
@@ -606,7 +635,7 @@
     <span class="pill">Türkçe</span>
     <span class="pill">Bahasa Indonesia</span>
     <span class="pill">اردو · Urdu</span>
-    <span class="pill soon">Oʻzbek <small>· translation in preparation</small></span>
+    <span class="pill soon">Oʻzbek <small>· <span data-i18n="langs.soon">translation in preparation</span></small></span>
   </div>
   <img class="heroShot" src="shots/4_uzbek.png" alt="The app with its Uzbek interface." loading="lazy" style="margin-top:38px">
 </section>
@@ -617,12 +646,12 @@
 <a id="support"></a>
 <section class="doc">
   <span class="folio" aria-hidden="true">٠٨</span>
-  <h2 class="wipe ltr">Support</h2>
-  <p>Questions, feedback, or something that looks wrong in the app — a hadith, the
+  <h2 class="wipe ltr" data-i18n="support.h2">Support</h2>
+  <p data-i18n="support.p">Questions, feedback, or something that looks wrong in the app — a hadith, the
      Arabic, a translation, or the reading experience? Please get in touch. Every
      message is read, and accuracy reports are taken seriously.</p>
   <div class="contact">
-    <span class="eyebrow">Contact</span>
+    <span class="eyebrow" data-i18n="support.contact">Contact</span>
     <a href="mailto:jakhongir.nematov97@gmail.com">jakhongir.nematov97@gmail.com</a>
   </div>
 </section>
@@ -631,17 +660,17 @@
 <a id="privacy"></a>
 <section class="doc">
   <span class="folio" aria-hidden="true">٠٩</span>
-  <h2 class="wipe ltr">Privacy</h2>
-  <p>Sahih al-Bukhari is built to collect nothing and track nothing. It works fully
+  <h2 class="wipe ltr" data-i18n="privacy.h2">Privacy</h2>
+  <p data-i18n="privacy.p">Sahih al-Bukhari is built to collect nothing and track nothing. It works fully
      offline.</p>
   <ul class="plist">
-    <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span><b>No data is collected.</b> There are no accounts, no sign-up, and no analytics.</li>
-    <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span><b>No tracking.</b> No advertising or tracking technologies of any kind.</li>
-    <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span><b>No network calls.</b> All content is bundled in the app; it does not connect to any server during use.</li>
-    <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span><b>Your data stays on your device.</b> Bookmarks, reading position, streak, and settings never leave it.</li>
-    <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span><b>Audio is on-device.</b> The optional “Listen” feature uses your device’s built-in text-to-speech — a synthesized voice, processed on-device, and labelled as such in the app.</li>
+    <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span><span data-i18n="privacy.li1"><b>No data is collected.</b> There are no accounts, no sign-up, and no analytics.</span></li>
+    <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span><span data-i18n="privacy.li2"><b>No tracking.</b> No advertising or tracking technologies of any kind.</span></li>
+    <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span><span data-i18n="privacy.li3"><b>No network calls.</b> All content is bundled in the app; it does not connect to any server during use.</span></li>
+    <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span><span data-i18n="privacy.li4"><b>Your data stays on your device.</b> Bookmarks, reading position, streak, and settings never leave it.</span></li>
+    <li><span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span><span data-i18n="privacy.li5"><b>Audio is on-device.</b> The optional “Listen” feature uses your device’s built-in text-to-speech — a synthesized voice, processed on-device, and labelled as such in the app.</span></li>
   </ul>
-  <p class="note">Because no personal data is collected, there is nothing to request, export,
+  <p class="note" data-i18n="privacy.note">Because no personal data is collected, there is nothing to request, export,
      or delete from us. Removing the app removes all of its data from your device. If this
      policy changes, the updated version will be posted on this page.</p>
 </section>
@@ -653,13 +682,13 @@
     <span class="khatam" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#khatam"/></svg></span>
     joxon.uz
   </div>
-  <p>Sahih al-Bukhari — read, listen, fully offline.</p>
+  <p data-i18n="footer.tagline">Sahih al-Bukhari — read, listen, fully offline.</p>
   <a class="store" href="https://apps.apple.com/app/sahih-al-bukhari/id6788182497">
     <svg aria-hidden="true"><use href="#applelogo"/></svg>
-    <span class="lines"><small>Download on the</small><b>App&nbsp;Store</b></span>
+    <span class="lines"><small data-i18n="store.small">Download on the</small><b>App&nbsp;Store</b></span>
   </a>
-  <p class="fine">© 2026 joxon.uz · <a href="#support">Support</a> &amp; <a href="#privacy">Privacy</a> · Last updated 17 July 2026</p>
-  <p class="fine">Arabic text from verified sources; the Uzbek daily hadith is shown under the
+  <p class="fine" data-i18n="footer.fine">© 2026 joxon.uz · <a href="#support">Support</a> &amp; <a href="#privacy">Privacy</a> · Last updated 19 July 2026</p>
+  <p class="fine" data-i18n="footer.credit">Arabic text from verified sources; the Uzbek daily hadith is shown under the
      re-publication terms of HadeethEnc.com.</p>
 </footer>
 
@@ -765,6 +794,33 @@
   window.addEventListener('scroll',onScroll,{passive:true});
   window.addEventListener('resize',function(){ measure(); update(); },{passive:true});
   window.addEventListener('load',function(){ measure(); update(); });
+})();
+</script>
+
+<!-- ═══ localization: EN / RU / UZ in-page switcher ═══ -->
+<script>
+(function(){
+  var I18N = {"en":{"meta.title":"Sahih al-Bukhari — joxon.uz","nav.book":"The book","nav.imam":"The Imam","nav.app":"The app","nav.support":"Support","nav.privacy":"Privacy","cta.download":"Download","store.small":"Download on the","hero.name":"Sahih al-Bukhari","hero.lede":"Honoured for nearly twelve centuries as the most authentic book after the Qurʼan — the life’s work of a son of Bukhara.","hero.sub":"All 97 books and 7,563 hadith, set like a book you’ll want to open — fully offline, with the story of Imam al-Bukhari, who gave sixteen years to gather it. No ads. No tracking. No sign-up.","hero.ghost":"The story of the Imam","hero.avail":"For iPhone, iPad, Mac, Apple&nbsp;TV &amp; Apple&nbsp;Vision","stat.books":"books, in full","stat.hadith":"hadith","stat.offline":"offline","stat.ads":"ads &amp; trackers","book.eyebrow":"The book","book.h2":"He gave it a precise name.","book.lead":"Not a book of opinions, and not a book of stories — a collection in which every narration met the strictest test its author could devise.","book.plate.en":"The comprehensive, fully chained, authentic, abridged collection of the affairs of the Messenger of God ﷺ, his practice, and his times — known ever since, simply, as Sahih al-Bukhari.","book.card1.h3":"An unbroken chain","book.card1.p":"Every hadith is carried by a chain of trustworthy narrators — each one known, weighed, and shown to have actually met the one he heard from. A stricter bar than any before it.","book.card2.h3":"One in eighty","book.card2.p":"Of some six hundred thousand narrations he weighed, about one in eighty earned a place — 7,563 hadith, and not one he doubted.","book.card3.h3":"Second only to the Qurʼan","book.card3.p":"For nearly twelve centuries, Sunni scholarship has honoured it as the most authentic book after the Book of God. The text is presented unaltered — here, and in the app.","imam.eyebrow":"The Imam of Bukhara","imam.h2":"One man walked out of Bukhara and wrote it all down.","imam.name":"Muḥammad ibn Ismāʿīl al-Bukhārī","imam.dates":"194–256 AH · 810–870 CE","imam.t1.when":"194 AH · 810 CE — Bukhara","imam.t1.h3":"A son of Bukhara","imam.t1.p":"He was born in Bukhara, in present-day Uzbekistan, and lost his father in infancy, growing up in his mother’s care. It is related that he lost his sight as a child — and that God restored it through her constant supplication.","imam.t2.when":"Age sixteen — Mecca","imam.t2.h3":"The journey begins","imam.t2.p":"At sixteen he set out for Mecca on pilgrimage with his mother and brother — and when they returned home, he stayed behind to study.","imam.t3.when":"The lands of Islam","imam.t3.h3":"A thousand teachers","imam.t3.p":"For many years he journeyed — the Hejaz, Iraq, Syria, Egypt, the cities of Khurasan — receiving hadith from more than a thousand teachers.","imam.t4.when":"Baghdad","imam.t4.h3":"The test","imam.t4.p":"The story is famous: the city’s scholars recited a hundred traditions with their chains deliberately confounded — and he restored every one to its rightful place, from a single hearing.","imam.t5.when":"Sixteen years","imam.t5.h3":"The Sahih","imam.t5.p":"From some six hundred thousand narrations he had gathered, over sixteen years he chose only those he was certain were sound — bathing and praying, it is told, before he set down each one. What remained he called al-Jāmiʿ al-Ṣaḥīḥ.","imam.t6.when":"256 AH · 870 CE — Khartank","imam.t6.h3":"The last night","imam.t6.p":"Driven from Bukhara for refusing to carry knowledge to a ruler’s door, he withdrew to the village of Khartank near Samarkand, and passed away on the night of Eid al-Fitr. His mausoleum stands there to this day — a place of visitation from across the world.","imam.epigraph":"From Bukhara to Samarkand — a life given wholly to preserving the words of the Prophet ﷺ.","night.eyebrow":"By lamplight","night.h2":"Written by night. Read by night.","night.p1":"His scribe recalled that the Imam would rise many times in a night, light his lamp, and set down what he feared to forget.","night.p2":"The app keeps the habit: a warm night theme for late reading and quiet mornings — the same page, dimmed to candlelight. Nothing glares; nothing pulls you away.","feat.eyebrow":"The app","feat.h2":"The book, made modern.","feat.p":"Every narration set like a page worth keeping — the Arabic in Amiri, a clear translation beneath, the narrator named, the grade shown. Turn page by page or read in one continuous scroll.","feat.li1":"Adjustable type size, day &amp; night themes","feat.li2":"A ribbon that remembers where you stopped","feat.li3":"Listen aloud, hands-free","feat.li4":"A hadith for every day, on your home screen","feat.ghost":"Get it on the App&nbsp;Store","coll.eyebrow":"The whole book","coll.h2":"The complete collection, grouped to browse.","coll.lead":"All 97 books, arranged into thirteen plain-language sections — so you always know where you are in the book. Find your place at a glance, then read page by page.","coll.s1":"The Beginning","coll.s1.r":"Books 1–3","coll.s2":"Purification","coll.s3":"Prayer","coll.s4":"Zakat, Fasting &amp; Hajj","coll.s5":"Dealings &amp; Property","coll.s6":"Struggle &amp; Treaties","coll.s7":"Prophets &amp; History","coll.s8":"The Qurʼan","coll.s9":"Family &amp; Food","coll.s10":"Conduct &amp; Daily Life","coll.s11":"Softening the Heart","coll.s12":"Oaths, Law &amp; Justice","coll.s13":"Dreams, Trials &amp; Belief","coll.tag1":"Instant offline search, with “did you mean?”","coll.tag2":"Per-book progress, quietly tracked","coll.tag3":"A home-screen widget for the day’s hadith","langs.eyebrow":"Read it in your language","langs.h2":"The Arabic original, with translations.","langs.body":"The verified Arabic text at the centre, with translations alongside — and an interface that speaks your language. Uzbek comes first: a fully localized experience today, with the complete Uzbek translation in careful preparation.","langs.soon":"translation in preparation","support.h2":"Support","support.p":"Questions, feedback, or something that looks wrong in the app — a hadith, the Arabic, a translation, or the reading experience? Please get in touch. Every message is read, and accuracy reports are taken seriously.","support.contact":"Contact","privacy.h2":"Privacy","privacy.p":"Sahih al-Bukhari is built to collect nothing and track nothing. It works fully offline.","privacy.li1":"<b>No data is collected.</b> There are no accounts, no sign-up, and no analytics.","privacy.li2":"<b>No tracking.</b> No advertising or tracking technologies of any kind.","privacy.li3":"<b>No network calls.</b> All content is bundled in the app; it does not connect to any server during use.","privacy.li4":"<b>Your data stays on your device.</b> Bookmarks, reading position, streak, and settings never leave it.","privacy.li5":"<b>Audio is on-device.</b> The optional “Listen” feature uses your device’s built-in text-to-speech — a synthesized voice, processed on-device, and labelled as such in the app.","privacy.note":"Because no personal data is collected, there is nothing to request, export, or delete from us. Removing the app removes all of its data from your device. If this policy changes, the updated version will be posted on this page.","footer.tagline":"Sahih al-Bukhari — read, listen, fully offline.","footer.fine":"© 2026 joxon.uz · <a href=\"#support\">Support</a> &amp; <a href=\"#privacy\">Privacy</a> · Last updated 19 July 2026","footer.credit":"Arabic text from verified sources; the Uzbek daily hadith is shown under the re-publication terms of HadeethEnc.com."},"ru":{"meta.title":"Сахих аль-Бухари — joxon.uz","nav.book":"Книга","nav.imam":"Имам","nav.app":"Приложение","nav.support":"Поддержка","nav.privacy":"Конфиденциальность","cta.download":"Скачать","store.small":"Загрузите в","hero.name":"Сахих аль-Бухари","hero.lede":"Почти двенадцать столетий её чтят как самую достоверную книгу после Корана — труд всей жизни сына Бухары.","hero.sub":"Все 97 книг и 7 563 хадиса, оформленные как книга, которую хочется открыть, — полностью офлайн, с историей имама аль-Бухари, отдавшего шестнадцать лет их собиранию. Без рекламы. Без слежки. Без регистрации.","hero.ghost":"История имама","hero.avail":"Для iPhone, iPad, Mac, Apple&nbsp;TV &amp; Apple&nbsp;Vision","stat.books":"книг целиком","stat.hadith":"хадиса","stat.offline":"офлайн","stat.ads":"рекламы &amp; трекеров","book.eyebrow":"Книга","book.h2":"Он дал ей точное название.","book.lead":"Не книга мнений и не книга преданий — свод, в котором каждое сообщение прошло строжайшую проверку, какую только мог придумать его составитель.","book.plate.en":"Полный, с непрерывными иснадами, достоверный сокращённый свод дел Посланника Аллаха ﷺ, его сунны и его времени — с тех пор известный просто как «Сахих аль-Бухари».","book.card1.h3":"Непрерывная цепь","book.card1.p":"Каждый хадис держится на цепи надёжных передатчиков — каждый из них известен, взвешен и достоверно встречался с тем, от кого слышал. Мерило строже всех, что были до него.","book.card2.h3":"Один из восьмидесяти","book.card2.p":"Из почти шестисот тысяч сообщений, которые он взвесил, место заслужил примерно один из восьмидесяти — 7 563 хадиса, и ни в одном он не усомнился.","book.card3.h3":"Уступает лишь Корану","book.card3.p":"Почти двенадцать столетий суннитские учёные чтят её как самую достоверную книгу после Книги Аллаха. Текст приводится без изменений — и здесь, и в приложении.","imam.eyebrow":"Имам из Бухары","imam.h2":"Один человек вышел из Бухары и записал всё это.","imam.name":"Мухаммад ибн Исмаил аль-Бухари","imam.dates":"194–256 г. х. · 810–870 гг. н. э.","imam.t1.when":"194 г. х. · 810 г. н. э. — Бухара","imam.t1.h3":"Сын Бухары","imam.t1.p":"Он родился в Бухаре, на территории нынешнего Узбекистана, в младенчестве потерял отца и рос на попечении матери. Передают, что в детстве он лишился зрения — и что Аллах вернул его по её неустанной мольбе.","imam.t2.when":"В шестнадцать лет — Мекка","imam.t2.h3":"Начало пути","imam.t2.p":"В шестнадцать лет он отправился в Мекку для паломничества вместе с матерью и братом — а когда они вернулись домой, он остался, чтобы учиться.","imam.t3.when":"Земли ислама","imam.t3.h3":"Тысяча учителей","imam.t3.p":"Многие годы он странствовал — Хиджаз, Ирак, Сирия, Египет, города Хорасана — принимая хадисы от более чем тысячи учителей.","imam.t4.when":"Багдад","imam.t4.h3":"Испытание","imam.t4.p":"Эта история хорошо известна: учёные города прочли сто преданий с намеренно перепутанными иснадами — и он вернул каждое на своё место, услышав их лишь однажды.","imam.t5.when":"Шестнадцать лет","imam.t5.h3":"«Сахих»","imam.t5.p":"Из почти шестисот тысяч собранных им сообщений он за шестнадцать лет отобрал лишь те, в достоверности которых был уверен, — совершая, как рассказывают, омовение и молитву перед тем, как записать каждое. То, что осталось, он назвал «аль-Джами ас-Сахих».","imam.t6.when":"256 г. х. · 870 г. н. э. — Хартанк","imam.t6.h3":"Последняя ночь","imam.t6.p":"Изгнанный из Бухары за отказ носить знание к дверям правителя, он удалился в селение Хартанк близ Самарканда и скончался в ночь на Ид аль-Фитр. Его мавзолей стоит там и поныне — место паломничества со всего мира.","imam.epigraph":"От Бухары до Самарканда — жизнь, целиком отданная сохранению слов Пророка ﷺ.","night.eyebrow":"При свете лампы","night.h2":"Написано ночью. Читается ночью.","night.p1":"Его писец вспоминал, что имам вставал много раз за ночь, зажигал лампу и записывал то, что боялся забыть.","night.p2":"Приложение хранит эту привычку: тёплая ночная тема для позднего чтения и тихих утр — та же страница, приглушённая до света свечи. Ничто не слепит; ничто не отвлекает.","feat.eyebrow":"Приложение","feat.h2":"Книга в современном виде.","feat.p":"Каждое сообщение оформлено как страница, которую хочется сохранить: арабский текст шрифтом Amiri, ясный перевод под ним, названный передатчик, указанная степень достоверности. Листайте страница за страницей или читайте одной непрерывной лентой.","feat.li1":"Настраиваемый размер шрифта, дневная &amp; ночная темы","feat.li2":"Закладка-лента, которая помнит, где вы остановились","feat.li3":"Слушайте вслух, не касаясь экрана","feat.li4":"Хадис на каждый день — на главном экране","feat.ghost":"Загрузите в App&nbsp;Store","coll.eyebrow":"Вся книга","coll.h2":"Полный свод, сгруппированный для удобного просмотра.","coll.lead":"Все 97 книг, распределённые по тринадцати понятным разделам, — чтобы вы всегда знали, где находитесь в книге. Найдите нужное место с одного взгляда и читайте страница за страницей.","coll.s1":"Начало","coll.s1.r":"Книги 1–3","coll.s2":"Очищение","coll.s3":"Молитва","coll.s4":"Закят, пост &amp; хадж","coll.s5":"Сделки &amp; имущество","coll.s6":"Борьба &amp; договоры","coll.s7":"Пророки &amp; история","coll.s8":"Коран","coll.s9":"Семья &amp; пища","coll.s10":"Нравы &amp; повседневная жизнь","coll.s11":"Смягчение сердца","coll.s12":"Клятвы, право &amp; правосудие","coll.s13":"Сны, испытания &amp; вера","coll.tag1":"Мгновенный офлайн-поиск с подсказкой «возможно, вы имели в виду?»","coll.tag2":"Прогресс по каждой книге, ненавязчиво сохраняемый","coll.tag3":"Виджет на главном экране с хадисом дня","langs.eyebrow":"Читайте на своём языке","langs.h2":"Арабский оригинал с переводами.","langs.body":"Выверенный арабский текст в центре, переводы рядом — и интерфейс, говорящий на вашем языке. Узбекский — первым: уже сегодня полностью локализованный интерфейс, а полный узбекский перевод тщательно готовится.","langs.soon":"перевод готовится","support.h2":"Поддержка","support.p":"Вопросы, отзывы или что-то, что кажется ошибкой в приложении, — хадис, арабский текст, перевод или само чтение? Пожалуйста, напишите нам. Каждое сообщение прочитывается, а сообщения о неточностях воспринимаются со всей серьёзностью.","support.contact":"Связаться","privacy.h2":"Конфиденциальность","privacy.p":"«Сахих аль-Бухари» создан так, чтобы ничего не собирать и ни за чем не следить. Он работает полностью офлайн.","privacy.li1":"<b>Никакие данные не собираются.</b> Нет учётных записей, регистрации и аналитики.","privacy.li2":"<b>Никакой слежки.</b> Никаких рекламных или отслеживающих технологий любого рода.","privacy.li3":"<b>Никаких сетевых обращений.</b> Всё содержимое встроено в приложение; во время использования оно не подключается ни к какому серверу.","privacy.li4":"<b>Ваши данные остаются на устройстве.</b> Закладки, позиция чтения, серия дней и настройки никогда его не покидают.","privacy.li5":"<b>Озвучивание — на устройстве.</b> Дополнительная функция «Слушать» использует встроенный в ваше устройство синтез речи — синтезированный голос, обрабатываемый на устройстве и обозначенный как таковой в приложении.","privacy.note":"Поскольку никакие персональные данные не собираются, у нас нечего запрашивать, экспортировать или удалять. Удаление приложения стирает все его данные с вашего устройства. Если эта политика изменится, обновлённая версия будет опубликована на этой странице.","footer.tagline":"«Сахих аль-Бухари» — читайте, слушайте, полностью офлайн.","footer.fine":"© 2026 joxon.uz · <a href=\"#support\">Поддержка</a> &amp; <a href=\"#privacy\">Конфиденциальность</a> · Обновлено 19 июля 2026","footer.credit":"Арабский текст из выверенных источников; узбекский хадис дня приводится на условиях повторной публикации HadeethEnc.com."},"uz":{"meta.title":"Sahih al-Buxoriy — joxon.uz","nav.book":"Kitob","nav.imam":"Imom","nav.app":"Ilova","nav.support":"Yordam","nav.privacy":"Maxfiylik","cta.download":"Yuklab olish","store.small":"Yuklab oling","hero.name":"Sahih al-Buxoriy","hero.lede":"Deyarli oʻn ikki asrdan buyon Qurʼondan keyingi eng ishonchli kitob sifatida eʼzozlanadi — Buxoro farzandining umrlik mehnati.","hero.sub":"Barcha 97 kitob va 7 563 hadis — ochgingiz keladigan kitob kabi tartiblangan, toʻliq oflayn, uni toʻplashga oʻn olti yil bagʻishlagan Imom al-Buxoriy hikoyasi bilan. Reklama yoʻq. Kuzatuv yoʻq. Roʻyxatdan oʻtish yoʻq.","hero.ghost":"Imom haqidagi hikoya","hero.avail":"iPhone, iPad, Mac, Apple&nbsp;TV &amp; Apple&nbsp;Vision uchun","stat.books":"kitob, toʻliq","stat.hadith":"hadis","stat.offline":"oflayn","stat.ads":"reklama va kuzatuvchilar","book.eyebrow":"Kitob","book.h2":"U kitobga aniq nom bergan.","book.lead":"Bu fikrlar kitobi ham, hikoyalar kitobi ham emas — har bir rivoyat muallif oʻylab topgan eng qatʼiy sinovdan oʻtgan toʻplam.","book.plate.en":"Alloh Rasuli ﷺ ishlari, sunnati va zamonasi haqidagi mukammal, toʻliq isnodli, ishonchli, muxtasar toʻplam — oʻshandan buyon oddiygina Sahih al-Buxoriy nomi bilan mashhur.","book.card1.h3":"Uzilmagan isnod","book.card1.p":"Har bir hadis ishonchli roviylar isnodi orqali yetib kelgan — har biri maʼlum, sinalgan va oʻzi eshitgan kishisi bilan haqiqatan uchrashgani aniqlangan. Bu — undan oldingi barchasidan qatʼiyroq meʼyor.","book.card2.h3":"Sakson rivoyatdan biri","book.card2.p":"U koʻrib chiqqan qariyb olti yuz ming rivoyatdan taxminan saksontadan biri joy oldi — 7 563 hadis, biror-birida shubha qilmagan.","book.card3.h3":"Qurʼondan keyin ikkinchi","book.card3.p":"Deyarli oʻn ikki asrdan buyon sunniy ulamolar uni Allohning Kitobidan keyingi eng ishonchli kitob deb eʼzozlab keladi. Matn oʻzgartirilmagan holda — bu yerda ham, ilovada ham — taqdim etiladi.","imam.eyebrow":"Buxoro imomi","imam.h2":"Bir inson Buxorodan yoʻlga chiqib, buning barchasini yozib qoldirdi.","imam.name":"Muhammad ibn Ismoil al-Buxoriy","imam.dates":"hijriy 194–256 · milodiy 810–870","imam.t1.when":"hijriy 194 · milodiy 810 — Buxoro","imam.t1.h3":"Buxoro farzandi","imam.t1.p":"U hozirgi Oʻzbekiston hududidagi Buxoroda tugʻilgan, goʻdaklik chogʻida otasidan ajralib, onasi tarbiyasida oʻsgan. Rivoyat qilinishicha, bolaligida koʻzi ojiz boʻlib qolgan — va Alloh onasining tinimsiz duosi barakasidan koʻzini qaytargan.","imam.t2.when":"Oʻn olti yoshda — Makka","imam.t2.h3":"Safar boshlanadi","imam.t2.p":"Oʻn olti yoshida onasi va akasi bilan haj safariga Makkaga yoʻl oldi — ular uyga qaytganda esa, u ilm olish uchun shu yerda qoldi.","imam.t3.when":"Islom oʻlkalari","imam.t3.h3":"Ming ustoz","imam.t3.p":"Koʻp yillar davomida u safarda boʻldi — Hijoz, Iroq, Suriya, Misr, Xuroson shaharlari — mingdan ortiq ustozdan hadis oldi.","imam.t4.when":"Bagʻdod","imam.t4.h3":"Sinov","imam.t4.p":"Bu voqea mashhur: shahar ulamolari isnodlari ataylab chalkashtirilgan yuzta hadisni oʻqib berishdi — u esa bir marta eshitgani bilan har birini oʻz oʻrniga qaytardi.","imam.t5.when":"Oʻn olti yil","imam.t5.h3":"Sahih","imam.t5.p":"Toʻplagan qariyb olti yuz ming rivoyatidan oʻn olti yil davomida faqat sahihligiga toʻliq ishongan hadislarnigina tanladi — rivoyat qilinishicha, har birini yozishdan oldin gʻusl qilib, namoz oʻqirdi. Qolganini u al-Jomiʼ as-Sahih deb atadi.","imam.t6.when":"hijriy 256 · milodiy 870 — Xartank","imam.t6.h3":"Soʻnggi tun","imam.t6.p":"Ilmni hukmdor eshigiga olib borishdan bosh tortgani uchun Buxorodan chiqarilib, u Samarqand yaqinidagi Xartank qishlogʻiga chekindi va Iyd al-fitr (Ramazon hayiti) kechasi vafot etdi. Uning maqbarasi hamon oʻsha yerda turibdi — dunyoning turli burchaklaridan ziyorat qilinadigan maskan.","imam.epigraph":"Buxorodan Samarqandgacha — butunlay Paygʻambar ﷺ soʻzlarini asrab qolishga bagʻishlangan umr.","night.eyebrow":"Chiroq yorugʻida","night.h2":"Tunda yozilgan. Tunda oʻqiladi.","night.p1":"Kotibi eslashicha, Imom bir kechada koʻp marta turib, chirogʻini yoqar va unutishdan qoʻrqqan narsasini yozib qoʻyardi.","night.p2":"Ilova ushbu odatni saqlaydi: kechki mutolaa va sokin tonglar uchun iliq tungi mavzu — oʻsha sahifa, sham yorugʻiday xiralashtirilgan. Hech narsa koʻzni qamashtirmaydi; hech narsa chalgʻitmaydi.","feat.eyebrow":"Ilova","feat.h2":"Kitob — zamonaviy koʻrinishda.","feat.p":"Har bir rivoyat asrab qoʻygulik sahifadek tartiblangan — arabchasi Amiri shriftida, ostida aniq tarjima, roviy nomi koʻrsatilgan, daraja belgilangan. Sahifalab varaqlang yoki uzluksiz oqimda oʻqing.","feat.li1":"Sozlanadigan matn oʻlchami, kunduzgi va tungi mavzular","feat.li2":"Toʻxtagan joyingizni eslab qoladigan lenta","feat.li3":"Ovoz chiqarib tinglang, qoʻlsiz","feat.li4":"Har kun uchun bitta hadis — bosh ekraningizda","feat.ghost":"App&nbsp;Storeʼdan yuklab oling","coll.eyebrow":"Butun kitob","coll.h2":"Toʻliq toʻplam, koʻrib chiqishga qulay boʻlimlarga ajratilgan.","coll.lead":"Barcha 97 kitob oddiy tildagi oʻn uch boʻlimga tartiblangan — shunda siz kitobning qayerida ekaningizni doim bilasiz. Joyingizni bir qarashda toping, soʻng sahifalab oʻqing.","coll.s1":"Boshlanishi","coll.s1.r":"1–3-kitoblar","coll.s2":"Tahorat","coll.s3":"Namoz","coll.s4":"Zakot, roʻza va haj","coll.s5":"Muomala va mol-mulk","coll.s6":"Jihod va shartnomalar","coll.s7":"Paygʻambarlar va tarix","coll.s8":"Qurʼon","coll.s9":"Oila va taom","coll.s10":"Odob va turmush","coll.s11":"Qalb yumshoqligi","coll.s12":"Qasam, huquq va adolat","coll.s13":"Tushlar, sinovlar va iymon","coll.tag1":"Bir zumda oflayn qidiruv — “buni nazarda tutdingizmi?” bilan","coll.tag2":"Har kitob boʻyicha jarayon — bildirmay kuzatiladi","coll.tag3":"Kunlik hadis uchun bosh ekran vidjeti","langs.eyebrow":"Oʻz tilingizda oʻqing","langs.h2":"Arabcha asl matn — tarjimalari bilan.","langs.body":"Markazda ishonchli arabcha matn, yonida tarjimalar — va sizning tilingizda soʻzlashadigan interfeys. Oʻzbek tili birinchi oʻrinda: bugun toʻliq oʻzbekchalashtirilgan tajriba, toʻliq oʻzbekcha tarjima esa sinchkovlik bilan tayyorlanmoqda.","langs.soon":"tarjima tayyorlanmoqda","support.h2":"Yordam","support.p":"Savollar, fikr-mulohaza yoki ilovada notoʻgʻri koʻringan biror narsa — hadis, arabcha matn, tarjima yoki mutolaa tajribasimi? Iltimos, bogʻlaning. Har bir xabar oʻqiladi, aniqlik haqidagi xabarlar jiddiy qabul qilinadi.","support.contact":"Bogʻlanish","privacy.h2":"Maxfiylik","privacy.p":"Sahih al-Buxoriy hech narsa yigʻmaydigan va hech narsani kuzatmaydigan qilib yaratilgan. U toʻliq oflayn ishlaydi.","privacy.li1":"<b>Hech qanday maʼlumot yigʻilmaydi.</b> Hisob yozuvlari, roʻyxatdan oʻtish va tahlil (analitika) yoʻq.","privacy.li2":"<b>Kuzatuv yoʻq.</b> Hech qanday reklama yoki kuzatuv texnologiyalari yoʻq.","privacy.li3":"<b>Tarmoqqa murojaat yoʻq.</b> Barcha matnlar ilova ichiga joylangan; foydalanish davomida hech qanday serverga ulanmaydi.","privacy.li4":"<b>Maʼlumotlaringiz qurilmangizda qoladi.</b> Lentalar, oʻqish joyi, seriya va sozlamalar undan hech qachon chiqmaydi.","privacy.li5":"<b>Ovoz qurilmada ishlanadi.</b> Ixtiyoriy “Tinglash” funksiyasi qurilmangizga oʻrnatilgan, matnni nutqqa aylantiruvchi xizmatdan foydalanadi — sintez qilingan ovoz, qurilmada qayta ishlanadi va ilovada shundayligi belgilab qoʻyilgan.","privacy.note":"Hech qanday shaxsiy maʼlumot yigʻilmagani uchun, bizdan soʻraydigan, eksport qiladigan yoki oʻchiradigan narsaning oʻzi yoʻq. Ilovani oʻchirish uning barcha maʼlumotlarini qurilmangizdan olib tashlaydi. Ushbu siyosat oʻzgarsa, yangilangan versiyasi shu sahifada eʼlon qilinadi.","footer.tagline":"Sahih al-Buxoriy — oʻqing, tinglang, toʻliq oflayn.","footer.fine":"© 2026 joxon.uz · <a href=\"#support\">Yordam</a> va <a href=\"#privacy\">Maxfiylik</a> · Soʻnggi yangilanish: 2026-yil 19-iyul","footer.credit":"Arabcha matn ishonchli manbalardan olingan; kunlik oʻzbekcha hadis HadeethEnc.com qayta nashr shartlari asosida koʻrsatiladi."}};
+  var SUP=['en','ru','uz'];
+  var els=document.querySelectorAll('[data-i18n]');
+  var btns=document.querySelectorAll('.langsw button');
+  function apply(lang){
+    if(SUP.indexOf(lang)<0) lang='en';
+    var d=I18N[lang], en=I18N.en;
+    document.documentElement.lang=lang;
+    if(d['meta.title']) document.title=d['meta.title'];
+    els.forEach(function(el){
+      var k=el.getAttribute('data-i18n');
+      var v=(d&&d[k]!=null)?d[k]:en[k];
+      if(v!=null) el.innerHTML=v;
+    });
+    btns.forEach(function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-lang')===lang?'true':'false'); });
+    try{ localStorage.setItem('lang',lang); }catch(e){}
+  }
+  var saved=null; try{ saved=localStorage.getItem('lang'); }catch(e){}
+  var lang=saved||((navigator.language||'en').slice(0,2).toLowerCase());
+  btns.forEach(function(b){ b.addEventListener('click',function(){ apply(b.getAttribute('data-lang')); }); });
+  apply(lang);
 })();
 </script>
 
